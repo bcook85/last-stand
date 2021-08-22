@@ -1,0 +1,19 @@
+.flexContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 0.5em;
+  margin: auto;
+  max-width: 90vw;
+}
+
+.flexColumn {
+  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ];
+  padding: 1em;
+}
+
+.flexColumnCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

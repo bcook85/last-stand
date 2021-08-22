@@ -1,0 +1,244 @@
+
+/******************************************************************************
+Menu Options
+******************************************************************************/
+
+.hide {
+  display: none;
+}
+
+/******************************************************************************
+Start Menu
+******************************************************************************/
+
+.startMenu {
+  overflow: auto;
+  margin: auto;
+  padding: 1em;
+  z-index: 9999;
+  min-width: 5vw;
+  max-width: 90vw;
+  max-height: 90vh;
+  text-align: center;
+  position: fixed;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.startMenuButton {
+  display: block;
+  text-align: center;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 1em auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 5%;
+}
+
+.startMenuButton:hover {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+/******************************************************************************
+Team Setup Menu
+******************************************************************************/
+
+.teamSetupMenu {
+  overflow: auto;
+  margin: auto;
+  padding: 1em;
+  z-index: 9999;
+  min-width: 5vw;
+  max-width: 90vw;
+  max-height: 90vh;
+  text-align: center;
+  background-color: #222;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 5%;
+}
+
+.teamSetupMenuButton {
+  text-align: center;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 1em auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 5%;
+}
+
+.teamSetupMenuCard {
+  background-color: #333;
+  padding: 0.5em;
+  margin: 0.5em;
+  border-radius: 5%;
+}
+
+.teamSetupMenuButton:hover {
+  background-color: black;
+  color: white;
+}
+
+.teamSetupMenuButton2 {
+  text-align: center;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  margin: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 0.75em;
+  font-weight: bold;
+  border-radius: 5%;
+}
+
+.teamSetupMenuButton2:hover {
+  background-color: black;
+  color: white;
+}
+
+.teamSetupMenuSpan {
+  text-align: center;
+  display: block;
+  margin: auto;
+  font-size: 1em;
+  color: white;
+}
+
+.teamSetupMenuCanvas {
+  display: block;
+  width:  64px;
+  height:  64px;
+  width:  2em;
+  height: 2em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  margin: auto;
+}
+
+/******************************************************************************
+Game Setup Menu
+******************************************************************************/
+
+.gameSetupMenu {
+  overflow: auto;
+  margin: auto;
+  padding: 1em;
+  z-index: 9999;
+  min-width: 5vw;
+  max-width: 90vw;
+  max-height: 90vh;
+  text-align: center;
+  background-color: #222;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 5%;
+}
+
+.gameSetupMenuCard {
+  background-color: #333;
+  padding: 0.5em;
+  margin: 0.5em;
+  border-radius: 5%;
+}
+
+.gameSetupMenuButton {
+  text-align: center;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 1em auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 5%;
+}
+
+.gameSetupMenuButton:hover {
+  background-color: black;
+  color: white;
+}
+
+.gameSetupMenuButton2 {
+  text-align: center;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 1em auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 0.75em;
+  font-weight: bold;
+  border-radius: 5%;
+}
+
+.gameSetupMenuButton2:hover {
+  background-color: black;
+  color: white;
+}
+
+.gameSetupMenuSpan {
+  text-align: center;
+  display: block;
+  margin: auto;
+  font-size: 2em;
+  color: white;
+}
+
+.gameSetupMenuSelect {
+  text-align: center;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  margin: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 1em;
+  font-weight: bold;  
+}

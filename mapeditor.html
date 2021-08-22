@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Last Stand Map Editor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="Stylesheet" type="text/css" href="css/editor.css">
+    <link rel="Stylesheet" type="text/css" href="css/popup.css">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+  </head>
+  <body>
+    <div id="StartDiv" class="popup centered">
+      <table>
+        <tr>
+          <td><span>Select Map:</span></td>
+          <td>
+            <select id="MapSelect" onchange="loadMap(this.value);">
+              <option value="-1">Select...</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="EditorDiv" class="hide">
+      <!-- Game Screen -->
+      <canvas id="screen"></canvas>
+      <!-- Tile Select -->
+      <div id="TileSelectDiv" class="popup lefted">
+        <span>Tiles</span>
+      </div>
+      <!-- Menu Select -->
+      <div id="MenuSelectDiv" class="popup righted">
+        <button type="button" onclick="saveMaps();">Save</button>
+      </div>
+    </div>
+    <!-- Engine -->
+    <script type="text/javascript" src="js/engine/loop.js"></script>
+    <script type="text/javascript" src="js/engine/screen.js"></script>
+    <script type="text/javascript" src="js/engine/spritesheet.js"></script>
+    <script type="text/javascript" src="js/engine/vectors.js"></script>
+    <!-- Data -->
+    <script type="text/javascript" src="data/maps.js"></script>
+    <!-- Game -->
+    <script type="text/javascript" src="js/keyboard.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/mapeditor.js"></script>
+  </body>
+</html>

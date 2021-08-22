@@ -1,0 +1,95 @@
+.popup {
+  overflow: auto;
+  margin: auto;
+  padding: 10px;
+  z-index: 9999;
+  max-width: 30vw;
+  min-width: 5vw;
+  max-height: 90vh;
+  background-color: white;
+  color: black;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 3px solid black;
+  border-radius: 5%;
+  font-size: 1.5vw;
+}
+
+.centered {
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.lefted {
+  text-align: left;
+  position: fixed;
+  top: 50%;
+  left: 0%;
+  transform: translate(0, -50%);
+}
+
+.righted {
+  text-align: right;
+  position: fixed;
+  top: 50%;
+  right: 0%;
+  transform: translate(0, 50%);
+}
+
+.popup table {
+  margin: auto;
+  text-align: left;
+}
+
+.popup td {
+  padding: 1px 5px;
+}
+
+.popup span {
+  text-align: left;
+  display: inline-block;
+  margin: auto;
+  font-size: 1em;
+  color: black;
+}
+
+.popup button {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  padding: 5px;
+  margin: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.popup button:hover {
+  background-color: black;
+  color: white;
+}
+
+.popup input {
+  font-size: 1em;
+}
+
+.popup canvas {
+  text-align: left;
+  width: 32px;
+  height: 32px;
+  display: block;
+  padding: 2px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.popup canvas:hover {
+  border: 3px solid green;
+}

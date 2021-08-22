@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Last Stand</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="Stylesheet" type="text/css" href="css/game.css">
+    <link rel="Stylesheet" type="text/css" href="css/popup.css">
+    <link rel="Stylesheet" type="text/css" href="css/menu.css">
+    <link rel="Stylesheet" type="text/css" href="css/flex.css">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+  </head>
+  <body id="body">
+    <!-- Start Menu -->
+    <div id="StartMenu" class = "hide">
+      <button type="button" class="startMenuButton" onclick="showTeamSetupMenu();">Start Game</button>
+      <button type="button" class="startMenuButton" onclick="">Save&#47;Load Game</button>
+      <button type="button" class="startMenuButton" onclick="">Options</button>
+      <button type="button" class="startMenuButton" onclick="">Credits</button>
+    </div>
+    <!-- Team Setup Menu -->
+    <div id="TeamSetupMenu" class = "hide">
+      <div class="flexContainer">
+        <div class="flexColumn teamSetupMenuCard">
+          <span class="teamSetupMenuSpan">Player</span>
+          <canvas class="teamSetupMenuCanvas" id="PlayerCanvas"></canvas>
+          <span class="teamSetupMenuSpan" id="PlayerNameSpan">Name</span>
+          <button type="button" class="teamSetupMenuButton2">Select</button>
+        </div>
+        <div class="flexColumn teamSetupMenuCard">
+          <span class="teamSetupMenuSpan">Ally 1</span>
+          <canvas class="teamSetupMenuCanvas" id="Ally1Canvas"></canvas>
+          <span class="teamSetupMenuSpan" id="Ally1NameSpan">Name</span>
+          <button type="button" class="teamSetupMenuButton2">Select</button>
+        </div>
+        <div class="flexColumn teamSetupMenuCard">
+          <span class="teamSetupMenuSpan">Ally 2</span>
+          <canvas class="teamSetupMenuCanvas" id="Ally2Canvas"></canvas>
+          <span class="teamSetupMenuSpan" id="Ally2NameSpan">Name</span>
+          <button type="button" class="teamSetupMenuButton2">Select</button>
+        </div>
+      </div>
+      <div class="flexContainer">
+        <div class="flexColumn teamSetupMenuCard">
+          <span class="teamSetupMenuSpan">Weapon</span>
+          <canvas class="teamSetupMenuCanvas" id="WeaponCanvas"></canvas>
+          <span class="teamSetupMenuSpan" id="WeaponNameSpan">Name</span>
+          <button type="button" class="teamSetupMenuButton2">Select</button>
+        </div>
+        <div class="flexColumn teamSetupMenuCard">
+          <span class="teamSetupMenuSpan">Armor</span>
+          <canvas class="teamSetupMenuCanvas" id="ArmorCanvas"></canvas>
+          <span class="teamSetupMenuSpan" id="ArmorNameSpan">Name</span>
+          <button type="button" class="teamSetupMenuButton2">Select</button>
+        </div>
+        <div class="flexColumn teamSetupMenuCard">
+          <span class="teamSetupMenuSpan">Ability</span>
+          <canvas class="teamSetupMenuCanvas" id="AbilityCanvas"></canvas>
+          <span class="teamSetupMenuSpan" id="AbilityNameSpan">Name</span>
+          <button type="button" class="teamSetupMenuButton2">Select</button>
+        </div>
+      </div>
+      <button type="button" class="teamSetupMenuButton" onclick="showMainMenu();">&#60;&#45; Main Menu</button>
+      <button type="button" class="teamSetupMenuButton" onclick="showGameSetupMenu();">Game Setup &#45;&#62;</button>
+    </div>
+    <!-- Game Setup Menu -->
+    <div id="GameSetupMenu" class = "hide">
+      <div class="flexContainer">
+        <div class="flexColumn gameSetupMenuCard">
+          <span class="gameSetupMenuSpan">Map Select</span>
+          <select class="gameSetupMenuSelect" id="MapSelect" onchange="updateMapSelect();">
+          </select>
+        </div>
+        <div class="flexColumn gameSetupMenuCard">
+          <span class="gameSetupMenuSpan">Difficulty Select</span>
+          <select class="gameSetupMenuSelect" id="LevelSelect">
+          </select>
+        </div>
+      </div>
+      <button type="button" class="gameSetupMenuButton" onclick="showTeamSetupMenu();">&#60;&#45; Team Setup</button>
+      <button type="button" class="gameSetupMenuButton" onclick="startGame();">Start Game &#45;&#62;</button>
+    </div>
+    <!-- Pause Menu -->
+    <div id="PauseMenu" class = "hide">
+      <span class="pauseMenuSpan">Pause Menu</span>
+      <button type="button" class="pauseMenuButton" onclick="">Resume Game</button>
+      <button type="button" class="pauseMenuButton" onclick="">Options</button>
+      <button type="button" class="pauseMenuButton" onclick="">Quit Game</button>
+    </div>
+    <!-- Game End Menu -->
+    <div id="GameEndMenu" class = "hide">
+      <span class="gameEndMenuSpan">Game Complete</span>
+      <button type="button" class="gameEndMenuButton" onclick="">Continue</button>
+    </div>
+    <!-- Game Screen -->
+    <canvas id="screen"></canvas>
+    <!-- Engine -->
+    <script type="text/javascript" src="js/engine/loop.js"></script>
+    <script type="text/javascript" src="js/engine/screen.js"></script>
+    <script type="text/javascript" src="js/engine/vectors.js"></script>
+    <script type="text/javascript" src="js/engine/spritesheet.js"></script>
+    <script type="text/javascript" src="js/engine/neat.js"></script>
+    <script type="text/javascript" src="js/engine/astar.js"></script>
+    <script type="text/javascript" src="js/engine/camera.js"></script>
+    <script type="text/javascript" src="js/engine/effect.js"></script>
+    <!-- Data -->
+    <script type="text/javascript" src="data/maps.js"></script>
+    <script type="text/javascript" src="data/levels.js"></script>
+    <script type="text/javascript" src="data/players.js"></script>
+    <script type="text/javascript" src="data/mobs.js"></script>
+    <script type="text/javascript" src="data/weapons.js"></script>
+    <script type="text/javascript" src="data/armors.js"></script>
+    <script type="text/javascript" src="data/abilities.js"></script>
+    <!-- Game -->
+    <script type="text/javascript" src="js/keyboard.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/level.js"></script>
+    <script type="text/javascript" src="js/unit.js"></script>
+    <script type="text/javascript" src="js/bullet.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/ui.js"></script>
+  </body>
+</html>
