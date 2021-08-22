@@ -15,7 +15,7 @@ let mapSelect = document.getElementById("MapSelect");
 let levelSelect = document.getElementById("LevelSelect");
 
 let uiSelections = {
-  "playerId": 0
+  "playerId": 2
   ,"ally1Id": 0
   ,"ally2Id": 1
   ,"weaponId": 0
@@ -99,7 +99,20 @@ function hideMenus() {
 function startGame() {
   hideMenus();
   initMap(uiSelections.mapId);
-  initPlayers();
+  initPlayers(
+    {// Player
+      "id": uiSelections.playerId
+      ,"weaponId": uiSelections.weaponId
+      ,"armorId": uiSelections.armorId
+      ,"abilityId": uiSelections.abilityId
+    }
+    ,{// Ally 1
+      "id": uiSelections.ally1Id
+    }
+    ,{// Ally 2
+      "id": uiSelections.ally2Id
+    }
+  );
   initLevel(uiSelections.levelId);
   gameLoop.start();
 }

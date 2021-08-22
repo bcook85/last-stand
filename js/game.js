@@ -103,66 +103,60 @@ const intermissionTime = 5000;
 let waveStarted = false;
 let wave = 0;
 
-function initPlayers() {
+function initPlayers(p1, p2, p3) {
   players = [];
   // Player 1
-  let p1Images = {
-    "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p1TypeId].imageRow * PLAYER_IMAGES.framesX)]
-    ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p1TypeId].imageRow * PLAYER_IMAGES.framesX) + 1]
-    ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p1TypeId].imageRow * PLAYER_IMAGES.framesX) + 2]
-    ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p1TypeId].imageRow * PLAYER_IMAGES.framesX) + 3]
-  };
-  let p1Setup = {
-    "unitData": PLAYER_TYPES[p1TypeId]
-    ,"weaponData": PLAYER_WEAPONS[p1TypeId][p1WeaponId]
-    ,"armorData": PLAYER_ARMORS[p1TypeId][p1ArmorId]
-    ,"abilityData": PLAYER_ABILITIES[p1TypeId][p1AbilityId]
-  };
   players.push(new Unit(
-    p1Setup
+    {
+      "unitData": PLAYER_TYPES[p1.id]
+      ,"weaponData": PLAYER_WEAPONS[p1.id][p1.weaponId]
+      ,"armorData": PLAYER_ARMORS[p1.id][p1.armorId]
+      ,"abilityData": PLAYER_ABILITIES[p1.id][p1.abilityId]
+    }
     ,new Vector(map.players[0] + 0.25, map.players[1] + 0.25)
-    ,p1Images.unit.width * 0.5 / map.tileSize
-    ,p1Images
+    ,PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
+    ,{
+      "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX)]
+      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX) + 1]
+      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX) + 2]
+      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX) + 3]
+    }
   ));
   players[0].id = "p1";
   // Player 2
-  let p2Images = {
-    "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p2TypeId].imageRow * PLAYER_IMAGES.framesX)]
-    ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p2TypeId].imageRow * PLAYER_IMAGES.framesX) + 1]
-    ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p2TypeId].imageRow * PLAYER_IMAGES.framesX) + 2]
-    ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p2TypeId].imageRow * PLAYER_IMAGES.framesX) + 3]
-  };
-  let p2Setup = {
-    "unitData": PLAYER_TYPES[p2TypeId]
-    ,"weaponData": PLAYER_WEAPONS[p2TypeId][p2WeaponId]
-    ,"armorData": PLAYER_ARMORS[p2TypeId][p2ArmorId]
-    ,"abilityData": PLAYER_ABILITIES[p2TypeId][p2AbilityId]
-  };
   players.push(new Unit(
-    p2Setup
+    {
+      "unitData": PLAYER_TYPES[p2.id]
+      ,"weaponData": PLAYER_WEAPONS[p2.id][0]
+      ,"armorData": PLAYER_ARMORS[p2.id][0]
+      ,"abilityData": PLAYER_ABILITIES[p2.id][0]
+    }
     ,new Vector(map.players[0] + 0.75, map.players[1] + 0.25)
-    ,p2Images.unit.width * 0.5 / map.tileSize
-    ,p2Images
+    ,PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
+    ,{
+      "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX)]
+      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX) + 1]
+      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX) + 2]
+      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX) + 3]
+    }
   ));
   players[1].id = "p2";
   // Player 3
-  let p3Images = {
-    "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p3TypeId].imageRow * PLAYER_IMAGES.framesX)]
-    ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p3TypeId].imageRow * PLAYER_IMAGES.framesX) + 1]
-    ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p3TypeId].imageRow * PLAYER_IMAGES.framesX) + 2]
-    ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p3TypeId].imageRow * PLAYER_IMAGES.framesX) + 3]
-  };
-  let p3Setup = {
-    "unitData": PLAYER_TYPES[p3TypeId]
-    ,"weaponData": PLAYER_WEAPONS[p3TypeId][p3WeaponId]
-    ,"armorData": PLAYER_ARMORS[p3TypeId][p3ArmorId]
-    ,"abilityData": PLAYER_ABILITIES[p3TypeId][p3AbilityId]
-  };
   players.push(new Unit(
-    p3Setup
+    {
+      "unitData": PLAYER_TYPES[p3.id]
+      ,"weaponData": PLAYER_WEAPONS[p3.id][0]
+      ,"armorData": PLAYER_ARMORS[p3.id][0]
+      ,"abilityData": PLAYER_ABILITIES[p3.id][0]
+    }
     ,new Vector(map.players[0] + 0.5, map.players[1] + 0.75)
-    ,p3Images.unit.width * 0.5 / map.tileSize
-    ,p3Images
+    ,PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
+    ,{
+      "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX)]
+      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX) + 1]
+      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX) + 2]
+      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX) + 3]
+    }
   ));
   players[2].id = "p3";
 }
