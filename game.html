@@ -26,43 +26,37 @@
         <span class="teamSetupMenuHeader">Team Setup</span>
       </div>
       <div class="flexContainer">
-        <div class="flexColumn teamSetupMenuCard">
+        <div class="flexColumn teamSetupMenuCard" onclick="buildPlayerSelect();">
           <span class="teamSetupMenuSpan">Player</span>
           <canvas class="teamSetupMenuCanvas" id="PlayerCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="PlayerNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2" onclick="buildPlayerSelect();">Select</button>
         </div>
-        <div class="flexColumn teamSetupMenuCard">
+        <div class="flexColumn teamSetupMenuCard" onclick="buildAlly1Select();">
           <span class="teamSetupMenuSpan">Ally 1</span>
           <canvas class="teamSetupMenuCanvas" id="Ally1Canvas"></canvas>
           <span class="teamSetupMenuSpan" id="Ally1NameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2" onclick="buildAlly1Select();">Select</button>
         </div>
-        <div class="flexColumn teamSetupMenuCard">
+        <div class="flexColumn teamSetupMenuCard" onclick="buildAlly2Select();">
           <span class="teamSetupMenuSpan">Ally 2</span>
           <canvas class="teamSetupMenuCanvas" id="Ally2Canvas"></canvas>
           <span class="teamSetupMenuSpan" id="Ally2NameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2" onclick="buildAlly2Select();">Select</button>
         </div>
       </div>
       <div class="flexContainer">
-        <div class="flexColumn teamSetupMenuCard">
+        <div class="flexColumn teamSetupMenuCard" onclick="buildWeaponSelect();">
           <span class="teamSetupMenuSpan">Weapon</span>
           <canvas class="teamSetupMenuCanvas" id="WeaponCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="WeaponNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2" onclick="buildWeaponSelect();">Select</button>
         </div>
-        <div class="flexColumn teamSetupMenuCard">
+        <div class="flexColumn teamSetupMenuCard" onclick="buildArmorSelect();">
           <span class="teamSetupMenuSpan">Armor</span>
           <canvas class="teamSetupMenuCanvas" id="ArmorCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="ArmorNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2" onclick="buildArmorSelect();">Select</button>
         </div>
-        <div class="flexColumn teamSetupMenuCard">
+        <div class="flexColumn teamSetupMenuCard" onclick="buildAbilitySelect();">
           <span class="teamSetupMenuSpan">Ability</span>
           <canvas class="teamSetupMenuCanvas" id="AbilityCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="AbilityNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2" onclick="buildAbilitySelect();">Select</button>
         </div>
       </div>
       <button type="button" class="teamSetupMenuButton" onclick="showMainMenu();">&#60;&#45; Main Menu</button>
@@ -75,12 +69,12 @@
       </div>
       <div class="flexContainer">
         <div class="flexColumn gameSetupMenuCard">
-          <span class="gameSetupMenuSpan">Map Select</span>
+          <span class="gameSetupMenuSpan">Map</span>
           <select class="gameSetupMenuSelect" id="MapSelect" onchange="updateMapSelect();">
           </select>
         </div>
         <div class="flexColumn gameSetupMenuCard">
-          <span class="gameSetupMenuSpan">Difficulty Select</span>
+          <span class="gameSetupMenuSpan">Difficulty</span>
           <select class="gameSetupMenuSelect" id="LevelSelect" onchange="updateLevelSelect();">
           </select>
         </div>
@@ -90,7 +84,7 @@
     </div>
     <!-- List Menu -->
     <div id="ListMenu" class = "hide">
-      <span class="listMenuHeader">Select:</span>
+      <span class="listMenuHeader">Select</span>
       <button type="button" class="listMenuCancelButton" onclick="showTeamSetupMenu();">X</button>
       <div id="ListMenuContainer">
       </div>
