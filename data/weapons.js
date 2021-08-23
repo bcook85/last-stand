@@ -5,10 +5,10 @@ const PLAYER_WEAPONS = [
       ,"imageId": 0
       ,"description": "And stuff! A solid choice for brave heroes. Very brave."
       ,"damage": 25
-      ,"attackSpeed": 500
+      ,"attackSpeed": 750
       ,"range": 2.0//2 * radius
       ,"isMelee": true
-      ,"multiHit": false
+      ,"multiHit": true
       ,"bulletImageId": undefined
       ,"buffs": {
         "health": 0
@@ -61,6 +61,29 @@ const PLAYER_WEAPONS = [
         ,"hpRegen": 0.0
         ,"energy": 0
         ,"nrgRegen": 0.5
+        ,"defense": 0
+        ,"damage": 0.0
+        ,"attackSpeed": 0.0
+        ,"moveSpeed": 0.0
+      }
+    }
+  ]
+  ,[// 3 for PLAYER_TYPES[3]
+    { // 0
+      "name": "Syringe of Special Sauce"
+      ,"imageId": 2
+      ,"description": "Just don't get stuck with it. Like really don't."
+      ,"damage": 14
+      ,"attackSpeed": 250
+      ,"range": 2.0//6 * radius
+      ,"isMelee": true
+      ,"multiHit": false
+      ,"bulletImageId": 0
+      ,"buffs": {
+        "health": 0
+        ,"hpRegen": 1.0
+        ,"energy": 0
+        ,"nrgRegen": 1.0
         ,"defense": 0
         ,"damage": 0.0
         ,"attackSpeed": 0.0

@@ -53,6 +53,24 @@ const PLAYER_ARMORS = [
       }
     }
   ]
+  ,[// 3 for PLAYER_TYPES[3]
+    {//0
+      "name": "Doctor's Coat"
+      ,"imageId": 3
+      ,"description": "It's not much protection, but you're also not a doctor."
+      ,"defense": 15
+      ,"buffs": {
+        "health": 0
+        ,"hpRegen": 1.0
+        ,"energy": 0
+        ,"nrgRegen": 0.0
+        ,"defense": 0
+        ,"damage": 0.0
+        ,"attackSpeed": 0.0
+        ,"moveSpeed": 0.0
+      }
+    }
+  ]
 ];
 
 const MOB_ARMORS = [
