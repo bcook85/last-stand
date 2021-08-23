@@ -22,24 +22,27 @@
     </div>
     <!-- Team Setup Menu -->
     <div id="TeamSetupMenu" class = "hide">
+      <div>
+        <span class="teamSetupMenuHeader">Team Setup</span>
+      </div>
       <div class="flexContainer">
         <div class="flexColumn teamSetupMenuCard">
           <span class="teamSetupMenuSpan">Player</span>
           <canvas class="teamSetupMenuCanvas" id="PlayerCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="PlayerNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2">Select</button>
+          <button type="button" class="teamSetupMenuButton2" onclick="buildPlayerSelect();">Select</button>
         </div>
         <div class="flexColumn teamSetupMenuCard">
           <span class="teamSetupMenuSpan">Ally 1</span>
           <canvas class="teamSetupMenuCanvas" id="Ally1Canvas"></canvas>
           <span class="teamSetupMenuSpan" id="Ally1NameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2">Select</button>
+          <button type="button" class="teamSetupMenuButton2" onclick="buildAlly1Select();">Select</button>
         </div>
         <div class="flexColumn teamSetupMenuCard">
           <span class="teamSetupMenuSpan">Ally 2</span>
           <canvas class="teamSetupMenuCanvas" id="Ally2Canvas"></canvas>
           <span class="teamSetupMenuSpan" id="Ally2NameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2">Select</button>
+          <button type="button" class="teamSetupMenuButton2" onclick="buildAlly2Select();">Select</button>
         </div>
       </div>
       <div class="flexContainer">
@@ -47,19 +50,19 @@
           <span class="teamSetupMenuSpan">Weapon</span>
           <canvas class="teamSetupMenuCanvas" id="WeaponCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="WeaponNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2">Select</button>
+          <button type="button" class="teamSetupMenuButton2" onclick="buildWeaponSelect();">Select</button>
         </div>
         <div class="flexColumn teamSetupMenuCard">
           <span class="teamSetupMenuSpan">Armor</span>
           <canvas class="teamSetupMenuCanvas" id="ArmorCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="ArmorNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2">Select</button>
+          <button type="button" class="teamSetupMenuButton2" onclick="buildArmorSelect();">Select</button>
         </div>
         <div class="flexColumn teamSetupMenuCard">
           <span class="teamSetupMenuSpan">Ability</span>
           <canvas class="teamSetupMenuCanvas" id="AbilityCanvas"></canvas>
           <span class="teamSetupMenuSpan" id="AbilityNameSpan">Name</span>
-          <button type="button" class="teamSetupMenuButton2">Select</button>
+          <button type="button" class="teamSetupMenuButton2" onclick="buildAbilitySelect();">Select</button>
         </div>
       </div>
       <button type="button" class="teamSetupMenuButton" onclick="showMainMenu();">&#60;&#45; Main Menu</button>
@@ -67,6 +70,9 @@
     </div>
     <!-- Game Setup Menu -->
     <div id="GameSetupMenu" class = "hide">
+      <div>
+        <span class="gameSetupMenuHeader">Game Setup</span>
+      </div>
       <div class="flexContainer">
         <div class="flexColumn gameSetupMenuCard">
           <span class="gameSetupMenuSpan">Map Select</span>
@@ -75,12 +81,19 @@
         </div>
         <div class="flexColumn gameSetupMenuCard">
           <span class="gameSetupMenuSpan">Difficulty Select</span>
-          <select class="gameSetupMenuSelect" id="LevelSelect">
+          <select class="gameSetupMenuSelect" id="LevelSelect" onchange="updateLevelSelect();">
           </select>
         </div>
       </div>
       <button type="button" class="gameSetupMenuButton" onclick="showTeamSetupMenu();">&#60;&#45; Team Setup</button>
       <button type="button" class="gameSetupMenuButton" onclick="startGame();">Start Game &#45;&#62;</button>
+    </div>
+    <!-- List Menu -->
+    <div id="ListMenu" class = "hide">
+      <span class="listMenuHeader">Select:</span>
+      <button type="button" class="listMenuCancelButton" onclick="showTeamSetupMenu();">X</button>
+      <div id="ListMenuContainer">
+      </div>
     </div>
     <!-- Pause Menu -->
     <div id="PauseMenu" class = "hide">
