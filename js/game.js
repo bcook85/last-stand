@@ -49,7 +49,6 @@ function loadLoop(RAFTS) {
     effectMelee = FX_IMAGES.images[2];
     effectStruck = FX_IMAGES.images[3];
     // UI
-    buildTeamSetupMenu();
     buildGameSetupMenu();
     showMainMenu();
     // Start Main Menu Loop
