@@ -626,6 +626,7 @@ function mobAIMasterControl(unit, allies, enemies, grid) {
     if (gameLoop.elapsedTime >= unit.aiLastUpdate + unit.aiUpdateTime) {
       unit.aiLastUpdate = gameLoop.elapsedTime;
       unit.movement = new Vector(0, 0);
+      unit.targetId = findClosestLivingTarget(unit.pos, enemies);
 
       if (unit.ai == 0 || unit.ai == undefined) {
         if (unit.targetId > -1 && enemies[unit.targetId].alive) {
@@ -639,8 +640,6 @@ function mobAIMasterControl(unit, allies, enemies, grid) {
           }
           // Ability
 
-        } else {
-          unit.targetId = findClosestLivingTarget(unit.pos, enemies);
         }
       }
     }
