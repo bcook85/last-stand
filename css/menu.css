@@ -132,12 +132,21 @@ Team Setup Menu
   color: white;
 }
 
+.teamSetupMenuHeader {
+  text-align: center;
+  display: block;
+  margin: auto;
+  font-size: 4em;
+  font-weight: bold;
+  color: white;
+}
+
 .teamSetupMenuCanvas {
   display: block;
-  width:  64px;
-  height:  64px;
-  width:  2em;
-  height: 2em;
+  width:  16px;
+  height:  16px;
+  width:  6em;
+  height: 6em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -229,7 +238,17 @@ Game Setup Menu
   color: white;
 }
 
+.gameSetupMenuHeader {
+  text-align: center;
+  display: block;
+  margin: auto;
+  font-size: 4em;
+  font-weight: bold;
+  color: white;
+}
+
 .gameSetupMenuSelect {
+  width: 100%;
   text-align: center;
   background-color: #222;
   color: white;
@@ -241,4 +260,114 @@ Game Setup Menu
   border: 1px solid black;
   font-size: 1em;
   font-weight: bold;  
+}
+
+/******************************************************************************
+List Menu
+******************************************************************************/
+
+.listMenu {
+  overflow: auto;
+  margin: auto;
+  padding: 1em;
+  z-index: 9999;
+  min-width: 5vw;
+  max-width: 90vw;
+  max-height: 90vh;
+  text-align: center;
+  background-color: #222;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 5%;
+  background-color: #222;
+}
+
+.listMenuContainer {
+  display: block;
+  /*width: 100%;*/
+  padding: 0.5em;
+  margin: 0.5em;
+  border-radius: 5%;
+}
+
+.listMenuItem {
+  background-color: #222;
+  cursor: pointer;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 5%;
+}
+
+.listMenuItem:hover {
+  background-color: #333;
+  color: white;
+}
+
+.listMenuItemCell {
+  padding: 0.5em;
+}
+
+.listMenuCancelButton {
+  text-align: center;
+  background-color: white;
+  color: red;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 2em;
+  font-weight: bold;
+  border-radius: 15%;
+
+  position: fixed;
+  top: 3%;
+  right: 3%;
+}
+
+.listMenuCancelButton:hover {
+  background-color: black;
+  color: white;
+}
+
+.listMenuSpan {
+  text-align: left;
+  margin: auto;
+  font-size: 1em;
+  color: white;
+  display: block;
+  max-width: 20vw;
+}
+
+.listMenuHeader {
+  text-align: center;
+  display: block;
+  margin: auto;
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+  max-width: 50vw;
+}
+
+.listMenuCanvas {
+  width:  16px;
+  height:  16px;
+  width:  6em;
+  height: 6em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  margin: auto;
 }
