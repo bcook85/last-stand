@@ -9,7 +9,6 @@
 
 .flexColumn {
   flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ];
-  padding: 1em;
 }
 
 .flexColumnCenter {
