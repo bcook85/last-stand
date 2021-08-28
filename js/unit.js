@@ -5,6 +5,7 @@ class Unit extends Ball {
     this.dir = Math.random() * Math.PI * 2;
     this.movement = new Vector(0, 0);
     // Stats
+    this.playerId = setup.playerId;
     this.alive = true;
     this.health = setup.unitData.health;
     this.health += setup.armorData.buffs.health;
@@ -40,6 +41,7 @@ class Unit extends Ball {
     );
     // Attack
     this.lastAttack = 0;
+    this.weaponId = setup.weaponId;
     this.attack = {
       "damage": setup.weaponData.damage
       ,"attackSpeed": setup.weaponData.attackSpeed
@@ -50,13 +52,30 @@ class Unit extends Ball {
     };
     // Ability
     this.lastAbility = 0;
-    this.ability = {};
+    if (setup.abilityData.name === undefined) {
+      this.abilityId = undefined;
+      this.abilityIconId = undefined;
+      this.abilityEffectId = undefined;
+      this.ability = undefined;
+    } else {
+      this.lastAbility = -setup.abilityData.cooldown;
+      this.abilityId = setup.abilityId;
+      this.abilityIconId = setup.abilityData.iconImageId;
+      this.abilityEffectId = setup.abilityData.effectImageId;
+      this.ability = {
+        "name": setup.abilityData.name
+        ,"cooldown": setup.abilityData.cooldown
+        ,"cost": setup.abilityData.cost
+        ,"target": setup.abilityData.target
+        ,"category": setup.abilityData.category
+        ,"data": setup.abilityData.data
+      };
+    }
     // Armor
+    this.armorId = setup.armorId;
     this.armor = {};
     // Accessory
     this.accessory = {};
-    // Pet(s?)
-    this.pet = undefined;
     // AI
     this.aiLastUpdate = 0;
     this.aiUpdateTime = 100;// milliseconds
@@ -81,13 +100,38 @@ class Unit extends Ball {
     }
     return wasKilled;
   };
+  gainHP(amount) {
+    if (this.alive) {
+      this.hp += amount;
+      if (this.hp > this.health) {
+        this.hp = this.health;
+      }
+    }
+  };
+  gainNRG(amount) {
+    if (this.alive) {
+      this.nrg += amount;
+      if (this.nrg > this.energy) {
+        this.nrg = this.energy;
+      }
+    }
+  };
+  useNRG(amount) {
+    let enoughEnergy = true;
+    this.nrg -= amount;
+    if (this.nrg < 0) {
+      enoughEnergy = false;
+      this.nrg = 0;
+    }
+    return enoughEnergy;
+  };
   update(grid, allies, enemies) {
     if (this.hp > 0) {
       // Set Movement Speed
       this.vel = this.vel.normalize().add(this.movement).mul(this.moveSpeed);
       // Collision
-      Ball.vsBalls(this, allies);
-      Ball.vsBalls(this, enemies);
+      Ball.resolveGridCollisions(this, grid);
+      Ball.vsBalls(this, allies.concat(enemies));
       Ball.resolveGridCollisions(this, grid);
       // Update Position
       this.pos = this.pos.add(this.vel);
@@ -105,18 +149,8 @@ class Unit extends Ball {
   regen(gameTime) {
     if (gameTime >= this.lastRegen + 1000) {
       this.lastRegen = gameTime;
-      // HP
-      if (this.hp > 0) {
-        this.hp += this.hpRegen;
-        if (this.hp > this.health) {
-          this.hp = this.health;
-        }
-        // NRG
-        this.nrg += this.nrgRegen;
-        if (this.nrg > this.energy) {
-          this.nrg = this.energy;
-        }
-      }
+      this.gainHP(this.hpRegen);
+      this.gainNRG(this.nrgRegen);
     }
   };
   drawShadow(ctx, scale, offset) {
@@ -124,7 +158,7 @@ class Unit extends Ball {
       this.images.shadow
       ,0,0,this.images.shadow.width,this.images.shadow.height
       ,Math.floor((this.pos.x * scale) - (this.imageScaled.x * 0.5) - offset.x)
-      ,Math.floor((this.pos.y * scale) - offset.y)
+      ,Math.floor((this.pos.y * scale) - offset.y)// top of shadow is half height of unit
       ,this.imageScaled.x,this.imageScaled.y
     );
   };

@@ -69,15 +69,15 @@ function buildTeamSetupMenu() {
 
   // Weapon
   weaponNameSpan.innerHTML = PLAYER_WEAPONS[uiSelections.playerId][uiSelections.weaponId].name;
-  // updateUICanvas(weaponCanvas, WEAPON_IMAGES.images[]);
+  updateUICanvas(weaponCanvas, ICON_IMAGES.images[PLAYER_WEAPONS[uiSelections.playerId][uiSelections.weaponId].iconImageId]);
 
   // Armor
   armorNameSpan.innerHTML = PLAYER_ARMORS[uiSelections.playerId][uiSelections.armorId].name;
-  // updateUICanvas(weaponCanvas, WEAPON_IMAGES.images[]);
+  updateUICanvas(armorCanvas, ICON_IMAGES.images[PLAYER_ARMORS[uiSelections.playerId][uiSelections.armorId].iconImageId]);
 
   // Ability
   abilityNameSpan.innerHTML = PLAYER_ABILITIES[uiSelections.playerId][uiSelections.abilityId].name;
-  // updateUICanvas(weaponCanvas, WEAPON_IMAGES.images[]);
+  updateUICanvas(abilityCanvas, ICON_IMAGES.images[PLAYER_ABILITIES[uiSelections.playerId][uiSelections.abilityId].iconImageId]);
 }
 
 function updateUICanvas(canvas, image) {
@@ -318,10 +318,10 @@ function buildArmorSelect() {
 
     let canvas = document.createElement("canvas");
     canvas.className = "listMenuCanvas";
-    // updateUICanvas(
-    //   canvas
-    //   ,WEAPON_IMAGES.images[(PLAYER_TYPES[i].imageRow * WEAPON_IMAGES.framesX) + 1]
-    // );
+    updateUICanvas(
+      canvas
+      ,ICON_IMAGES.images[PLAYER_ARMORS[uiSelections.playerId][i].iconImageId]
+    );
     let leftDiv = document.createElement("div");
     leftDiv.className = "flexColumn listMenuItemCell";
     leftDiv.appendChild(canvas);
@@ -360,10 +360,10 @@ function buildAbilitySelect() {
 
     let canvas = document.createElement("canvas");
     canvas.className = "listMenuCanvas";
-    // updateUICanvas(
-    //   canvas
-    //   ,WEAPON_IMAGES.images[(PLAYER_TYPES[i].imageRow * WEAPON_IMAGES.framesX) + 1]
-    // );
+    updateUICanvas(
+      canvas
+      ,ICON_IMAGES.images[PLAYER_ABILITIES[uiSelections.playerId][i].iconImageId]
+    );
     let leftDiv = document.createElement("div");
     leftDiv.className = "flexColumn listMenuItemCell";
     leftDiv.appendChild(canvas);
@@ -402,10 +402,10 @@ function buildWeaponSelect() {
 
     let canvas = document.createElement("canvas");
     canvas.className = "listMenuCanvas";
-    // updateUICanvas(
-    //   canvas
-    //   ,WEAPON_IMAGES.images[(PLAYER_TYPES[i].imageRow * WEAPON_IMAGES.framesX) + 1]
-    // );
+    updateUICanvas(
+      canvas
+      ,ICON_IMAGES.images[PLAYER_WEAPONS[uiSelections.playerId][i].iconImageId]
+    );
     let leftDiv = document.createElement("div");
     leftDiv.className = "flexColumn listMenuItemCell";
     leftDiv.appendChild(canvas);

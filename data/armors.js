@@ -2,7 +2,7 @@ const PLAYER_ARMORS = [
   [// 0 for PLAYER_TYPES[0]
     {//0
       "name": "Smelly Old Armor"
-      ,"imageId": 0
+      ,"iconImageId": 9
       ,"description": "This antique may have more holes than a cheese grater, but also it smells."
       ,"defense": 40
       ,"buffs": {
@@ -20,7 +20,7 @@ const PLAYER_ARMORS = [
   ,[// 1 for PLAYER_TYPES[1]
     {//0
       "name": "Robes of Meh"
-      ,"imageId": 1
+      ,"iconImageId": 9
       ,"description": "They're OK. I guess. Better than nothing. Probably."
       ,"defense": 20
       ,"buffs": {
@@ -38,7 +38,7 @@ const PLAYER_ARMORS = [
   ,[// 2 for PLAYER_TYPES[2]
     {//0
       "name": "Very, very Light Armor"
-      ,"imageId": 2
+      ,"iconImageId": 9
       ,"description": "Death from less than 1,000 papercuts. But you'll move faster!"
       ,"defense": 5
       ,"buffs": {
@@ -56,7 +56,7 @@ const PLAYER_ARMORS = [
   ,[// 3 for PLAYER_TYPES[3]
     {//0
       "name": "Doctor's Coat"
-      ,"imageId": 3
+      ,"iconImageId": 9
       ,"description": "It's not much protection, but you're also not a doctor."
       ,"defense": 15
       ,"buffs": {
@@ -73,10 +73,29 @@ const PLAYER_ARMORS = [
   ]
 ];
 
+const PET_ARMORS = [
+  {//0
+   "name": "Medium Armor"
+    ,"iconImageId": undefined
+    ,"description": ""
+    ,"defense": 35
+    ,"buffs": {
+      "health": 0
+      ,"hpRegen": 1
+      ,"energy": 0
+      ,"nrgRegen": 0.0
+      ,"defense": 0
+      ,"damage": 0.0
+      ,"attackSpeed": 0.0
+      ,"moveSpeed": 0.0
+    }
+  }
+]
+
 const MOB_ARMORS = [
   {//0
     "name": "Light Armor"
-    ,"imageId": undefined
+    ,"iconImageId": undefined
     ,"description": ""
     ,"defense": 10
     ,"buffs": {
@@ -92,7 +111,7 @@ const MOB_ARMORS = [
   }
   ,{//1
     "name": "Medium Armor"
-    ,"imageId": undefined
+    ,"iconImageId": undefined
     ,"description": ""
     ,"defense": 25
     ,"buffs": {
@@ -108,7 +127,7 @@ const MOB_ARMORS = [
   }
   ,{//2
     "name": "Heavy Armor"
-    ,"imageId": undefined
+    ,"iconImageId": undefined
     ,"description": ""
     ,"defense": 50
     ,"buffs": {
@@ -124,7 +143,7 @@ const MOB_ARMORS = [
   }
   ,{//3
     "name": "Boss Armor"
-    ,"imageId": undefined
+    ,"iconImageId": undefined
     ,"description": ""
     ,"defense": 85
     ,"buffs": {

@@ -5,6 +5,7 @@ class Level {
     this.waveStartTime = undefined;
     this.mapSpawnLocation = 0;
     this.waveSpawns = [];
+    this.maxWaves = 3;
     for (let i = 0; i < levelData.waveSpawns.length; i++) {
       let spawns = [];
       for (let j = 0; j < levelData.waveSpawns[i].length; j++) {
@@ -18,5 +19,14 @@ class Level {
       }
       this.waveSpawns.push(spawns);
     }
+  };
+  nextWave(gameTime) {
+    this.currentWave += 1;
+    console.log("New Wave: " + this.currentWave);
+    if (this.currentWave >= this.maxWaves) {
+      return true;
+    }
+    this.waveStartTime = gameTime;
+    return false;
   };
 };

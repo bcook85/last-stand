@@ -14,10 +14,12 @@ Pre-load
 ******************************************************************************/
 
 const PLAYER_IMAGES = new SpriteSheet("images/players.png", 8, 8);
+const PET_IMAGES = new SpriteSheet("images/pets.png", 8, 8);
 const MOB_IMAGES = new SpriteSheet("images/mobs.png", 8, 8);
 const BULLET_IMAGES = new SpriteSheet("images/bullets.png", 16, 16);
 const TILE_IMAGES = new SpriteSheet("images/tiles.png", 16, 16);
 const FX_IMAGES = new SpriteSheet("images/fx.png", 16, 16);
+const ICON_IMAGES = new SpriteSheet("images/icons.png", 16, 16);
 const MMBG_IMAGE = new SpriteSheet("images/mainmenu.png", 256, 144);
 
 let imageAim = undefined;
@@ -37,6 +39,7 @@ function loadLoop(RAFTS) {
   );
   // Asset check
   if (PLAYER_IMAGES.loaded
+    && PET_IMAGES.loaded
     && MOB_IMAGES.loaded
     && BULLET_IMAGES.loaded
     && TILE_IMAGES.loaded
@@ -111,6 +114,10 @@ function initPlayers(p1, p2, p3) {
       ,"weaponData": PLAYER_WEAPONS[p1.id][p1.weaponId]
       ,"armorData": PLAYER_ARMORS[p1.id][p1.armorId]
       ,"abilityData": PLAYER_ABILITIES[p1.id][p1.abilityId]
+      ,"playerId": p1.id
+      ,"weaponId": p1.weaponId
+      ,"armorId": p1.armorId
+      ,"abilityId": p1.abilityId
     }
     ,new Vector(map.players[0] + 0.25, map.players[1] + 0.25)
     ,PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
@@ -129,6 +136,10 @@ function initPlayers(p1, p2, p3) {
       ,"weaponData": PLAYER_WEAPONS[p2.id][0]
       ,"armorData": PLAYER_ARMORS[p2.id][0]
       ,"abilityData": PLAYER_ABILITIES[p2.id][0]
+      ,"playerId": p2.id
+      ,"weaponId": 0
+      ,"armorId": 0
+      ,"abilityId": 0
     }
     ,new Vector(map.players[0] + 0.75, map.players[1] + 0.25)
     ,PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
@@ -147,6 +158,10 @@ function initPlayers(p1, p2, p3) {
       ,"weaponData": PLAYER_WEAPONS[p3.id][0]
       ,"armorData": PLAYER_ARMORS[p3.id][0]
       ,"abilityData": PLAYER_ABILITIES[p3.id][0]
+      ,"playerId": p3.id
+      ,"weaponId": 0
+      ,"armorId": 0
+      ,"abilityId": 0
     }
     ,new Vector(map.players[0] + 0.5, map.players[1] + 0.75)
     ,PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
@@ -168,10 +183,9 @@ function spawnMobs() {
         allSpawned = false;
       if (gameLoop.elapsedTime >= level.waveStartTime + waveSpawns[i].spawnTime + intermissionTime) {
         if (waveSpawns[i].spawnAmount > 0) {
-          mobs.push(createMob(
-            MOB_TYPES[waveSpawns[i].mobId]
-          ));
-          waveSpawns[i].spawnAmount -= 1;
+          if (createMob(MOB_TYPES[waveSpawns[i].mobId])) {
+            waveSpawns[i].spawnAmount -= 1;
+          }
           return;
         } else {
           waveSpawns[i].spawned = true;
@@ -197,29 +211,86 @@ function createMob(mobData) {
   };
   let newMob = new Unit(
     mSetup
-    ,new Vector(-1, -1)
+    ,new Vector(map.spawns[level.mapSpawnLocation][0] + 0.5, map.spawns[level.mapSpawnLocation][1] + 0.5)
     ,mImages.unit.width * 0.5 / map.tileSize
     ,mImages
   );
   newMob.id = "m" + mob_id;
   mob_id += 1;
-  while (true) {
-    newMob.pos.x = map.spawns[level.mapSpawnLocation][0] + 0.5 + (Math.random() * 4) - 2;// needs to be configurable
-    newMob.pos.y = map.spawns[level.mapSpawnLocation][1] + 0.5 + (Math.random() * 4) - 2;
-    let testBall = new Ball(new Vector(newMob.pos.x, newMob.pos.y), newMob.radius);
-    if (!Ball.collidesGrid(testBall, map.grid)) {
-      return newMob;
+  newMob.pos = findPlacement(newMob.pos, newMob.radius * 1.1, 2, players.concat(mobs).concat(pets), map.grid);
+  if (newMob.pos === undefined) {
+    return false;
+  } else {
+    addObjectToList(newMob, mobs);
+    return true;
+  }
+}
+
+function summonPet(unit, petId, count) {
+  // Remove existing pets
+  for (let i = 0; i < pets.length; i++) {
+    if (pets[i].alive && pets[i].owner.id == unit.id) {
+      pets[i].alive = false;
+    }
+  }
+  for (let i = 0; i < count; i++) {
+    let newPet = new Unit(
+      {
+        "unitData": PET_TYPES[petId]
+        ,"weaponData": PET_WEAPONS[PET_TYPES[petId].weaponId]
+        ,"armorData": PET_ARMORS[PET_TYPES[petId].armorId]
+        ,"abilityData": MOB_ABILITIES[PET_TYPES[petId].abilityId]
+        ,"playerId": petId
+        ,"weaponId": PET_TYPES[petId].weaponId
+        ,"armorId": PET_TYPES[petId].armorId
+        ,"abilityId": PET_TYPES[petId].abilityId
+      }
+      ,new Vector(unit.pos.x, unit.pos.y)
+      ,PET_IMAGES.images[(PET_TYPES[petId].imageRow * PET_IMAGES.framesX)].width * 0.5 / map.tileSize
+      ,{
+        "unit": PET_IMAGES.images[(PET_TYPES[petId].imageRow * PET_IMAGES.framesX)]
+        ,"shadow": PET_IMAGES.images[(PET_TYPES[petId].imageRow * PET_IMAGES.framesX) + 1]
+      }
+    );
+    newPet.pos = findPlacement(newPet.pos, newPet.radius * 1.1, 2, players.concat(mobs).concat(pets), map.grid);
+    newPet.owner = unit;
+    newPet.id = "pet" + pet_id;
+    pet_id += 1;
+    if (newPet.pos !== undefined) {
+      addObjectToList(newPet, pets);
     }
   }
 }
 
-function createBullet(unit) {
+function findPlacement(pos, radius, maxDistance, objects, grid) {
+  let testBall = new Ball(
+    pos
+    ,radius
+  );
+  let ballAngle = Math.random() * Math.PI * 2;
+  let ballDistance = testBall.radius * 2;
+  while (Ball.collidesGrid(testBall, grid)
+    || Ball.collidesBalls(testBall, objects)) {
+    testBall.pos = pos.add(Vector.fromAngle(ballAngle).normalize().mul(ballDistance));
+    ballAngle += Math.PI * 0.25;
+    if (ballAngle >= Math.PI * 2) {
+      ballAngle = 0;
+      ballDistance += testBall.radius * 2;
+      if (ballDistance >= maxDistance) {
+        return undefined;
+      }
+    }
+  }
+  return testBall.pos;
+}
+
+function createBullet(unit, image, damage) {
   let pos = unit.pos.add(Vector.fromAngle(unit.dir).normalize().mul(unit.radius));
   let bullet = new Bullet(
     pos
     ,unit.radius * 0.5
-    ,BULLET_IMAGES.images[unit.attack.bulletImageId]
-    ,unit.attack.damage
+    ,image
+    ,damage
     ,unit
   );
   bullet.dir = unit.dir;
@@ -227,10 +298,10 @@ function createBullet(unit) {
   if (unit.attack.isMultiHit) {
     bullet.multiHit = true;
   }
-  if (unit.id[0] == "p") {
-    addObjectToList(bullet, playerBullets);
-  } else if (unit.id[0] == "m") {
+  if (unit.id[0] == "m") {
     addObjectToList(bullet, mobBullets);
+  } else {
+    addObjectToList(bullet, playerBullets);
   }
 }
 
@@ -260,6 +331,7 @@ function initMap(mapId) {
 
 function initLevel(levelId) {
   level = new Level(LEVEL_TYPES[levelId]);
+  // level.currentWave = 2;
   level.waveStartTime = gameLoop.elapsedTime;
 }
 
@@ -269,7 +341,6 @@ Update Functions
 
 function update() {
   // Wave state control
-  spawnMobs();
   waveControl();
   // Keyboard & Mouse control
   playerControls();
@@ -290,7 +361,32 @@ function update() {
 }
 
 function waveControl() {
+  // if all players are dead, game end
+  if (!areAnyAlive(players)) {
+    //stuff
+  }
   //if all mobs are spawned and all mobs are dead, next wave
+  if (allSpawned && !areAnyAlive(mobs)) {
+    if (level.nextWave(gameLoop.elapsedTime)) {
+      // game win!, but for now...
+      initLevel(0);
+    }
+    mobs = [];
+    mobBullets = [];
+    mob_id = 0;
+    allSpawned = false;
+  } else {
+    spawnMobs();
+  }
+}
+
+function areAnyAlive(objectList) {
+  for (let i = 0; i < objectList.length; i++) {
+    if (objectList[i].alive) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function playerControls() {
@@ -317,6 +413,8 @@ function playerControls() {
     }
     if (gameScreen.mouseButtons[1]) {
       // use ability
+      let mousePos = new Vector(gameScreen.mousePos[0], gameScreen.mousePos[1]).add(cam).div(map.tileSize);
+      unitUseAbility(players[0], players, mobs, mousePos);
     }
   }
 }
@@ -388,15 +486,73 @@ function unitAttack(unit, enemies) {
       }
       
     } else {
-      createBullet(unit);
+      createBullet(unit, BULLET_IMAGES.images[unit.attack.bulletImageId], unit.attack.damage);
     }
   }
 }
 
-function unitAbility(unit, enemies) {
-  if (gameLoop.elapsedTime >= unit.lastAbility + unit.ability.coolDown) {
-    unit.lastAbility = gameLoop.elapsedTime;
+function unitUseAbility(unit, allies, enemies, targetLocation) {
+  if (unit.ability !== undefined) {
+    if (gameLoop.elapsedTime >= unit.lastAbility + unit.ability.cooldown
+      && unit.nrg >= unit.ability.cost) {
+      unit.lastAbility = gameLoop.elapsedTime;
+      unit.useNRG(unit.ability.cost);
+
+      switch(unit.ability.category) {
+        case ABILITY_CATEGORIES.attack:
+          if (unit.ability.target == ABILITY_TARGETS.bullet) {
+            createBullet(unit, BULLET_IMAGES.images[unit.attack.bulletImageId], unit.ability.damage);// NEED TO FIX THIS!
+          } else if (unit.ability.target == ABILITY_TARGETS.cone) {
+            //stuff
+          } else if (unit.ability.target == ABILITY_TARGETS.pbAOE) {
+            //stuff
+          } else if (unit.ability.target == ABILITY_TARGETS.targetedAOE) {
+            //stuff
+          }
+          break;
+        case ABILITY_CATEGORIES.heal:
+          if (unit.ability.target == ABILITY_TARGETS.self) {
+            unit.gainHP(unit.ability.data.amount);
+          } else if (unit.ability.target == ABILITY_TARGETS.pbAOE) {
+            //stuff
+          } else if (unit.ability.target == ABILITY_TARGETS.targetedAOE) {
+            //stuff
+          }
+          break;
+        case ABILITY_CATEGORIES.buff:
+          if (unit.ability.target == ABILITY_TARGETS.self) {
+            //stuff
+          } else if (unit.ability.target == ABILITY_TARGETS.pbAOE) {
+            //stuff
+          } else if (unit.ability.target == ABILITY_TARGETS.targetedAOE) {
+            //stuff
+          }
+          break;
+        case ABILITY_CATEGORIES.summon:
+          summonPet(unit, unit.ability.data.petId, unit.ability.data.count);
+          break;
+        case ABILITY_CATEGORIES.teleport:
+          if (!teleport(unit, targetLocation)) {
+            unit.gainNRG(unit.ability.cost);
+            unit.lastAbility -= unit.ability.cooldown;
+          }
+          break;
+        default:
+          //nothing
+          break;
+      }
+    }
   }
+}
+
+function teleport(unit, pos) {
+  let testBall = new Ball(new Vector(pos.x, pos.y), unit.radius);
+  if (!Ball.collidesGrid(testBall, map.grid)
+    && !Ball.collidesBalls(testBall, players.concat(mobs))) {
+    unit.pos = new Vector(pos.x, pos.y);
+    return true;
+  }
+  return false;
 }
 
 function unitRevive(unit, allies) {
@@ -438,6 +594,7 @@ function draw() {
   // Effects
   drawEffects();
   // Stats & UI
+  drawStats(pets, true);
   drawStats(players);
   drawPlayerPlaques();
   drawPlayer1Actions();
@@ -558,40 +715,44 @@ function drawPlayer1Actions() {
 
 }
 
-function drawStats(units) {
+function drawStats(units, aliveOnly=false) {
   for (let i = 0; i < units.length; i++) {
-    // Health Bar - Background
-    gameScreen.ctx.fillStyle = "rgb(0,0,0)";//"rgb(255,0,0)";
-    gameScreen.ctx.fillRect(
-      Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
-      ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y - 1)
-      ,units[i].imageScaled.x
-      ,1
-    );
-    // Health Bar - Foreground
-    gameScreen.ctx.fillStyle = "rgb(255,0,0)";//"rgb(0,255,0)";
-    gameScreen.ctx.fillRect(
-      Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
-      ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y - 1)
-      ,Math.floor(units[i].imageScaled.x * (units[i].hp / units[i].health))
-      ,1
-    );
-    // Energy Bar - Background
-    gameScreen.ctx.fillStyle = "rgb(0,0,0)";//"rgb(79,0,81)";
-    gameScreen.ctx.fillRect(
-      Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
-      ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y)
-      ,units[i].imageScaled.x
-      ,1
-    );
-    // Energy Bar - Foreground
-    gameScreen.ctx.fillStyle = "rgb(0,255,0)";//"rgb(0,111,255)";
-    gameScreen.ctx.fillRect(
-      Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
-      ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y)
-      ,Math.floor(units[i].imageScaled.x * (units[i].nrg / units[i].energy))
-      ,1
-    );
+    if (aliveOnly && !units[i].alive) {
+      //nothing
+    } else {
+      // Health Bar - Background
+      gameScreen.ctx.fillStyle = "rgb(0,0,0)";//"rgb(255,0,0)";
+      gameScreen.ctx.fillRect(
+        Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
+        ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y - 1)
+        ,units[i].imageScaled.x
+        ,1
+      );
+      // Health Bar - Foreground
+      gameScreen.ctx.fillStyle = "rgb(255,0,0)";//"rgb(0,255,0)";
+      gameScreen.ctx.fillRect(
+        Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
+        ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y - 1)
+        ,Math.floor(units[i].imageScaled.x * (units[i].hp / units[i].health))
+        ,1
+      );
+      // Energy Bar - Background
+      gameScreen.ctx.fillStyle = "rgb(0,0,0)";//"rgb(79,0,81)";
+      gameScreen.ctx.fillRect(
+        Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
+        ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y)
+        ,units[i].imageScaled.x
+        ,1
+      );
+      // Energy Bar - Foreground
+      gameScreen.ctx.fillStyle = "rgb(0,255,0)";//"rgb(0,111,255)";
+      gameScreen.ctx.fillRect(
+        Math.floor((units[i].pos.x * map.tileSize) - cam.x - (units[i].imageScaled.x * 0.5))
+        ,Math.floor((units[i].pos.y * map.tileSize) - cam.y - units[i].imageScaled.y)
+        ,Math.floor(units[i].imageScaled.x * (units[i].nrg / units[i].energy))
+        ,1
+      );
+    }
   }
 }
 
@@ -636,7 +797,7 @@ function mobAIMasterControl(unit, allies, enemies, grid) {
             unitAttack(unit, enemies);
           } else {
             // Movement
-            navigateToTarget(unit, enemies, grid);
+            navigateToTarget(unit, enemies[unit.targetId], grid);
           }
           // Ability
 
@@ -650,27 +811,51 @@ function petAIMasterControl(unit, allies, enemies, grid) {
     if (gameLoop.elapsedTime >= unit.aiLastUpdate + unit.aiUpdateTime) {
       unit.aiLastUpdate = gameLoop.elapsedTime;
       unit.movement = new Vector(0, 0);
-      // if (unit.pos.getDistance(unit.owner.pos) < 4) {
-      //   if (unit.ai == 0 || unit.ai == undefined) {
-      //     // Movement
-      //     navigateToTarget(unit, enemies, grid);
-      //     // Attack
 
-      //     // Ability
-      //   }
-      // } else {
-      //   // m
-      // }
-      
+      if (unit.pos.getDistance(unit.owner.pos) <= 4) {
+        unit.targetId = findClosestLivingTarget(unit.pos, enemies);
+
+        if (unit.ai == 0 || unit.ai == undefined) {
+          if (unit.targetId > -1 && enemies[unit.targetId].alive) {
+            // Attack
+            if (unit.pos.getDistance(enemies[unit.targetId].pos) <= unit.attack.range + enemies[unit.targetId].radius) {
+              unit.dir = unit.pos.getNormalizedAngle(enemies[unit.targetId].pos);
+              unitAttack(unit, enemies);
+            } else {
+              // Movement
+              navigateToTarget(unit, enemies[unit.targetId], grid);
+            }
+            // Ability
+
+          }
+        }
+      } else {
+        navigateToTarget(unit, unit.owner, grid);
+      }
     }
   }
 }
-function playerAIMasterControl(unit, allies, enemies, grid) {
+function playerAIMasterControl(unit, allies, enemies, grid) {//totally temporary until NN can get trained
   if (unit.alive) {
     if (gameLoop.elapsedTime >= unit.aiLastUpdate + unit.aiUpdateTime) {
       unit.aiLastUpdate = gameLoop.elapsedTime;
       unit.movement = new Vector(0, 0);
-      // neural network control
+      unit.targetId = findClosestLivingTarget(unit.pos, enemies);
+
+      if (unit.ai == 0 || unit.ai == undefined) {
+        if (unit.targetId > -1 && enemies[unit.targetId].alive) {
+          // Attack
+          if (unit.pos.getDistance(enemies[unit.targetId].pos) <= unit.attack.range + enemies[unit.targetId].radius) {
+            unit.dir = unit.pos.getNormalizedAngle(enemies[unit.targetId].pos);
+            unitAttack(unit, enemies);
+          } else {
+            // Movement
+            navigateToTarget(unit, enemies[unit.targetId], grid);
+          }
+          // Ability
+
+        }
+      }
     }
   }
 }
@@ -725,15 +910,15 @@ function findLivingTargetInConeMulti(unit, enemies, distance, arc) {
   return targets;
 }
 
-function navigateToTarget(unit, targets, grid) {
+function navigateToTarget(unit, target, grid) {
   // Update path to target
   if (gameLoop.elapsedTime >= unit.pathLastUpdate + unit.pathUpdateTime) {
     unit.pathLastUpdate = gameLoop.elapsedTime;
     unit.path = Astar(
       Math.floor(unit.pos.x)
       ,Math.floor(unit.pos.y)
-      ,Math.floor(targets[unit.targetId].pos.x)
-      ,Math.floor(targets[unit.targetId].pos.y)
+      ,Math.floor(target.pos.x)
+      ,Math.floor(target.pos.y)
       ,grid
     );
     unit.pathCurrentNode = 1;
@@ -754,7 +939,7 @@ function navigateToTarget(unit, targets, grid) {
     }
     if (unit.path.length > 1) {
       // finally, move to middle of current node
-      unit.dir = unit.pos.getNormalizedAngle(targets[unit.targetId].pos);
+      unit.dir = unit.pos.getNormalizedAngle(target.pos);
       if (unit.path[unit.pathCurrentNode][1] + 0.5 < unit.pos.y - unit.radius) {
         unit.movement = unit.movement.add(new Vector(0, -1));
       } else if (unit.path[unit.pathCurrentNode][1] + 0.5 > unit.pos.y + unit.radius) {
@@ -767,15 +952,15 @@ function navigateToTarget(unit, targets, grid) {
       }
     }
   } else {// move at enemy directly
-    unit.dir = unit.pos.getNormalizedAngle(targets[unit.targetId].pos);
-    if (targets[unit.targetId].pos.y + targets[unit.targetId].radius <= unit.pos.y - (unit.radius * 2)) {
+    unit.dir = unit.pos.getNormalizedAngle(target.pos);
+    if (target.pos.y + target.radius <= unit.pos.y - (unit.radius * 2)) {
       unit.movement = unit.movement.add(new Vector(0, -1));
-    } else if (targets[unit.targetId].pos.y - targets[unit.targetId].radius >= unit.pos.y + (unit.radius * 2)) {
+    } else if (target.pos.y - target.radius >= unit.pos.y + (unit.radius * 2)) {
       unit.movement = unit.movement.add(new Vector(0, 1));
     }
-    if (targets[unit.targetId].pos.x + targets[unit.targetId].radius <= unit.pos.x - (unit.radius * 2)) {
+    if (target.pos.x + target.radius <= unit.pos.x - (unit.radius * 2)) {
       unit.movement = unit.movement.add(new Vector(-1, 0));
-    } else if (targets[unit.targetId].pos.x - targets[unit.targetId].radius >= unit.pos.x + (unit.radius * 2)) {
+    } else if (target.pos.x - target.radius >= unit.pos.x + (unit.radius * 2)) {
       unit.movement = unit.movement.add(new Vector(1, 0));
     }
   }

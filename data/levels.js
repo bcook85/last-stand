@@ -37,9 +37,86 @@ const LEVEL_TYPES = [
         }
       ]
       // 1
-      ,[]
+      ,[
+        {
+          "mobId": 2
+          ,"spawnTime": 0
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 0
+          ,"spawnTime": 1000
+          ,"spawnAmount": 4
+        }
+        ,{
+          "mobId": 0
+          ,"spawnTime": 1000
+          ,"spawnAmount": 4
+        }
+        ,{
+          "mobId": 4
+          ,"spawnTime": 2000
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 2
+          ,"spawnTime": 4000
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 1
+          ,"spawnTime": 8000
+          ,"spawnAmount": 2
+        }
+        ,{
+          "mobId": 3
+          ,"spawnTime": 12000
+          ,"spawnAmount": 2
+        }
+      ]
       // 2
-      ,[]
+      ,[
+        {
+          "mobId": 5
+          ,"spawnTime": 0
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 5
+          ,"spawnTime": 0
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 5
+          ,"spawnTime": 0
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 0
+          ,"spawnTime": 4000
+          ,"spawnAmount": 4
+        }
+        ,{
+          "mobId": 4
+          ,"spawnTime": 4000
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 2
+          ,"spawnTime": 4000
+          ,"spawnAmount": 3
+        }
+        ,{
+          "mobId": 1
+          ,"spawnTime": 8000
+          ,"spawnAmount": 2
+        }
+        ,{
+          "mobId": 3
+          ,"spawnTime": 10000
+          ,"spawnAmount": 2
+        }
+      ]
       // 3
       ,[]
       // 4
