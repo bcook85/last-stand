@@ -8,17 +8,15 @@ https://bcook85.github.io/last-stand/game.html
 - Win/lose conditions.
 - XP and leveling system.
 - Save and load player progress.
-- Build wave control system.
 - Complete easy level.
 - Build medium, hard, and insane levels.
 - Create player weapon images.
 - Create player armor images.
 - Create player ability images.
-- Create ability system.
 - Create abilities for all units.
-- Create pet system.
 - Train allies.
 - Create more heros, mobs, weapons, armors, and abilties.
+- UI. So much UI.
 
 # Controls:
 - Movement: WASD or Arrow keys
