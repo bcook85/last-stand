@@ -1,11 +1,12 @@
 class SoundChannel {
-  constructor(file, channels, volume=1.0) {
+  constructor(file, channels, volume) {
     this.channels = [];
     this.volume = volume;
     for (let i = 0; i < channels; i++) {
       let sound = new Audio();
       sound.src = file;
       sound.volume = volume;
+      sound.defaultVolume = volume;
       this.channels.push(sound);
     }
     console.log(`Sound Loaded: ${file} x ${channels} @ ${volume * 100}%`);
@@ -29,9 +30,10 @@ class SoundContainer {
     let channel = new SoundChannel(file, channels, volume);
     this.sounds.push(channel);
   };
-  play(id) {
+  play(id, volume=1.0) {
     let sound = this.get(id);
     if (sound !== undefined) {
+      sound.volume = volume * sound.defaultVolume;
       sound.currentTime = 0;
       sound.play();
     }

@@ -23,11 +23,14 @@ const ICON_IMAGES = new SpriteSheet("images/icons.png", 16, 16);
 const MMBG_IMAGE = new SpriteSheet("images/mainmenu.png", 256, 144);
 
 // Audio
-const WEAPON_ACTIVATION_SOUNDS = new SoundContainer();
-WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_melee_0.wav", 8, 0.5);
-WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_ranged_0.wav", 8, 0.5);
-WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_ranged_1.wav", 8, 0.25);
-WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_melee_1.wav", 8, 0.5);
+const MELEE_ACTIVATION_SOUNDS = new SoundContainer();
+const RANGED_ACTIVATION_SOUNDS = new SoundContainer();
+const STRUCK_SOUNDS = new SoundContainer();
+MELEE_ACTIVATION_SOUNDS.load("sounds/attack_melee_0.wav", 8, 0.5);
+RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_0.wav", 16, 0.5);
+RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_1.wav", 8, 0.25);
+MELEE_ACTIVATION_SOUNDS.load("sounds/attack_melee_1.wav", 8, 0.5);
+RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_2.wav", 8, 0.15);
 
 let imageAim = undefined;
 let effectMelee = undefined;
@@ -87,11 +90,6 @@ let p3WeaponId = 0;
 let p3ArmorId = 0;
 let p3AbilityId = 0;
 /* END */
-
-const screenCenter = new Vector(
-  Math.floor(gameScreen.width * 0.5)
-  ,Math.floor(gameScreen.height * 0.5)
-);
 let cam = new Camera(gameScreen.width, gameScreen.height);
 let level = undefined;
 let allSpawned = false;
@@ -396,7 +394,7 @@ function playerControls() {
       players[0].movement = players[0].movement.add(new Vector(1, 0));
     }
     // Mouse
-    players[0].dir = screenCenter.getNormalizedAngle(new Vector(
+    players[0].dir = cam.centerPosition.getNormalizedAngle(new Vector(
       gameScreen.mousePos[0]
       ,gameScreen.mousePos[1]
     ));
@@ -476,14 +474,25 @@ function unitAttack(unit, enemies) {
           enemies[target].receiveDamage(unit.attack.damage);
         }
       }
+      MELEE_ACTIVATION_SOUNDS
+      // Sound
+      if (unit.attack.soundId !== undefined) {
+        MELEE_ACTIVATION_SOUNDS.play(unit.attack.soundId, calculateVolume(unit.pos));
+      }
     } else {
       createBullet(unit, BULLET_IMAGES.images[unit.attack.bulletImageId], unit.attack.damage);
-    }
-    // Sound
-    if (unit.attack.soundId !== undefined) {
-      WEAPON_ACTIVATION_SOUNDS.play(unit.attack.soundId);
+      // Sound
+      if (unit.attack.soundId !== undefined) {
+        RANGED_ACTIVATION_SOUNDS.play(unit.attack.soundId, calculateVolume(unit.pos));
+      }
     }
   }
+}
+
+function calculateVolume(pos) {
+  let maxDist = cam.size.x;
+  let dist = Math.max(0, Math.min(maxDist, pos.mul(map.tileSize).getDistance(cam.add(cam.centerPosition))));
+  return Math.max(0, Math.min(1, (maxDist - dist) / maxDist));
 }
 
 function unitUseAbility(unit, allies, enemies, targetLocation) {

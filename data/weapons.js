@@ -34,7 +34,7 @@ const PLAYER_WEAPONS = [
       ,"isMelee": false
       ,"multiHit": false
       ,"bulletImageId": 0
-      ,"activationSoundId": 1
+      ,"activationSoundId": 0
       ,"buffs": {
         "health": 0
         ,"hpRegen": 0.0
@@ -58,7 +58,7 @@ const PLAYER_WEAPONS = [
       ,"isMelee": false
       ,"multiHit": false
       ,"bulletImageId": 1
-      ,"activationSoundId": 2
+      ,"activationSoundId": 1
       ,"buffs": {
         "health": 0
         ,"hpRegen": 0.0
@@ -82,7 +82,7 @@ const PLAYER_WEAPONS = [
       ,"isMelee": true
       ,"multiHit": false
       ,"bulletImageId": 0
-      ,"activationSoundId": 3
+      ,"activationSoundId": 1
       ,"buffs": {
         "health": 0
         ,"hpRegen": 1.0
@@ -133,7 +133,7 @@ const MOB_WEAPONS = [
     ,"isMelee": true
     ,"multiHit": false
     ,"bulletImageId": undefined
-    ,"activationSoundId": undefined
+    ,"activationSoundId": 1
     ,"buffs": {
       "health": 0
       ,"hpRegen": 0.0
@@ -155,7 +155,7 @@ const MOB_WEAPONS = [
     ,"isMelee": true
     ,"multiHit": false
     ,"bulletImageId": undefined
-    ,"activationSoundId": undefined
+    ,"activationSoundId": 0
     ,"buffs": {
       "health": 0
       ,"hpRegen": 0.0
@@ -177,7 +177,7 @@ const MOB_WEAPONS = [
     ,"isMelee": false
     ,"multiHit": false
     ,"bulletImageId": 1
-    ,"activationSoundId": undefined
+    ,"activationSoundId": 1
     ,"buffs": {
       "health": 0
       ,"hpRegen": 0.0
@@ -199,7 +199,7 @@ const MOB_WEAPONS = [
     ,"isMelee": false
     ,"multiHit": false
     ,"bulletImageId": 2
-    ,"activationSoundId": undefined
+    ,"activationSoundId": 0
     ,"buffs": {
       "health": 0
       ,"hpRegen": 0.0
@@ -221,7 +221,7 @@ const MOB_WEAPONS = [
     ,"isMelee": false
     ,"multiHit": false
     ,"bulletImageId": 3
-    ,"activationSoundId": undefined
+    ,"activationSoundId": 2
     ,"buffs": {
       "health": 0
       ,"hpRegen": 0.0
@@ -243,7 +243,7 @@ const MOB_WEAPONS = [
     ,"isMelee": true
     ,"multiHit": false
     ,"bulletImageId": undefined
-    ,"activationSoundId": undefined
+    ,"activationSoundId": 1
     ,"buffs": {
       "health": 0
       ,"hpRegen": 0.0
