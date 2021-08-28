@@ -2,6 +2,7 @@ class Camera extends Vector {
   constructor(width, height) {
     super(0, 0);
     this.size = new Vector(width, height);
+    this.centerPosition = new Vector(width * 0.5, height * 0.5);
   };
   center(pos) {
     this.x = pos.x - (this.size.x * 0.5);
