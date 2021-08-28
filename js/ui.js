@@ -153,7 +153,7 @@ function hideMenus() {
 function startGame() {
   hideMenus();
   initMap(uiSelections.mapId);
-  initPlayers(
+  initPlayers([
     {// Player
       "id": uiSelections.playerId
       ,"weaponId": uiSelections.weaponId
@@ -162,10 +162,16 @@ function startGame() {
     }
     ,{// Ally 1
       "id": uiSelections.ally1Id
+      ,"weaponId": 0
+      ,"armorId": 0
+      ,"abilityId": 0
     }
     ,{// Ally 2
       "id": uiSelections.ally2Id
-    }
+      ,"weaponId": 0
+      ,"armorId": 0
+      ,"abilityId": 0
+    }]
   );
   initLevel(uiSelections.levelId);
   gameLoop.start();

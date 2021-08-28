@@ -89,6 +89,7 @@ let cam = new Camera(gameScreen.width, gameScreen.height);
 let level = undefined;
 let allSpawned = false;
 let players = [];
+let player_id = 0;
 let playerBullets = [];
 let pets = [];
 let pet_id = 0;
@@ -105,74 +106,58 @@ const intermissionTime = 5000;
 let waveStarted = false;
 let wave = 0;
 
-function initPlayers(p1, p2, p3) {
+function initPlayers(playerData) {
   players = [];
-  // Player 1
-  players.push(new Unit(
-    {
-      "unitData": PLAYER_TYPES[p1.id]
-      ,"weaponData": PLAYER_WEAPONS[p1.id][p1.weaponId]
-      ,"armorData": PLAYER_ARMORS[p1.id][p1.armorId]
-      ,"abilityData": PLAYER_ABILITIES[p1.id][p1.abilityId]
-      ,"playerId": p1.id
-      ,"weaponId": p1.weaponId
-      ,"armorId": p1.armorId
-      ,"abilityId": p1.abilityId
+  for (let i = 0; i < playerData.length; i++) {
+    let setupData = {
+      "unitData": PLAYER_TYPES[playerData[i].id]
+      ,"weaponData": PLAYER_WEAPONS[playerData[i].id][playerData[i].weaponId]
+      ,"armorData": PLAYER_ARMORS[playerData[i].id][playerData[i].armorId]
+      ,"abilityData": PLAYER_ABILITIES[playerData[i].id][playerData[i].abilityId]
+      ,"playerId": playerData[i].id
+      ,"weaponId": playerData[i].weaponId
+      ,"armorId": playerData[i].armorId
+      ,"abilityId": playerData[i].abilityId
+    };
+    let pos = new Vector(map.players[0] + 0.5, map.players[1] + 0.5);
+    let radius = PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize;
+    let images = {
+      "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX)]
+      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 1]
+      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 2]
+      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 3]
+    };
+    if (!spawnPlayer(setupData, pos, radius, images)) {
+      preLoadLoop.stop();
+      startMenuLoop.stop();
+      gameLoop.stop();
+      console.log(`Could not place player ${playerData[i]}.`);
+      console.log(players);
+      console.log(setupData);
+      console.log(pos);
+      console.log(radius);
+      console.log(images);
     }
-    ,new Vector(map.players[0] + 0.25, map.players[1] + 0.25)
-    ,PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
-    ,{
-      "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX)]
-      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX) + 1]
-      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX) + 2]
-      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p1.id].imageRow * PLAYER_IMAGES.framesX) + 3]
-    }
-  ));
-  players[0].id = "p1";
-  // Player 2
-  players.push(new Unit(
-    {
-      "unitData": PLAYER_TYPES[p2.id]
-      ,"weaponData": PLAYER_WEAPONS[p2.id][0]
-      ,"armorData": PLAYER_ARMORS[p2.id][0]
-      ,"abilityData": PLAYER_ABILITIES[p2.id][0]
-      ,"playerId": p2.id
-      ,"weaponId": 0
-      ,"armorId": 0
-      ,"abilityId": 0
-    }
-    ,new Vector(map.players[0] + 0.75, map.players[1] + 0.25)
-    ,PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
-    ,{
-      "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX)]
-      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX) + 1]
-      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX) + 2]
-      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p2.id].imageRow * PLAYER_IMAGES.framesX) + 3]
-    }
-  ));
-  players[1].id = "p2";
-  // Player 3
-  players.push(new Unit(
-    {
-      "unitData": PLAYER_TYPES[p3.id]
-      ,"weaponData": PLAYER_WEAPONS[p3.id][0]
-      ,"armorData": PLAYER_ARMORS[p3.id][0]
-      ,"abilityData": PLAYER_ABILITIES[p3.id][0]
-      ,"playerId": p3.id
-      ,"weaponId": 0
-      ,"armorId": 0
-      ,"abilityId": 0
-    }
-    ,new Vector(map.players[0] + 0.5, map.players[1] + 0.75)
-    ,PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize
-    ,{
-      "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX)]
-      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX) + 1]
-      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX) + 2]
-      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[p3.id].imageRow * PLAYER_IMAGES.framesX) + 3]
-    }
-  ));
-  players[2].id = "p3";
+  }
+}
+
+function spawnPlayer(setupData, pos, radius, images) {
+  let newPlayer = new Unit(
+    setupData
+    ,pos
+    ,radius
+    ,images
+  );
+  newPlayer.id = "p" + player_id;
+  player_id += 1;
+  // Placement
+  newPlayer.pos = findPlacement(newPlayer.pos, newPlayer.radius * 1.5, 8, players.concat(mobs).concat(pets), map.grid);
+  if (newPlayer.pos === undefined) {
+    return false;
+  } else {
+    addObjectToList(newPlayer, players);
+    return true;
+  }
 }
 
 function spawnMobs() {
