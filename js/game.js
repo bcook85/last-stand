@@ -22,6 +22,13 @@ const FX_IMAGES = new SpriteSheet("images/fx.png", 16, 16);
 const ICON_IMAGES = new SpriteSheet("images/icons.png", 16, 16);
 const MMBG_IMAGE = new SpriteSheet("images/mainmenu.png", 256, 144);
 
+// Audio
+const WEAPON_ACTIVATION_SOUNDS = new SoundContainer();
+WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_melee_0.wav", 8, 0.5);
+WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_ranged_0.wav", 8, 0.5);
+WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_ranged_1.wav", 8, 0.25);
+WEAPON_ACTIVATION_SOUNDS.load("sounds/attack_melee_1.wav", 8, 0.5);
+
 let imageAim = undefined;
 let effectMelee = undefined;
 let effectStruck = undefined;
@@ -469,9 +476,12 @@ function unitAttack(unit, enemies) {
           enemies[target].receiveDamage(unit.attack.damage);
         }
       }
-      
     } else {
       createBullet(unit, BULLET_IMAGES.images[unit.attack.bulletImageId], unit.attack.damage);
+    }
+    // Sound
+    if (unit.attack.soundId !== undefined) {
+      WEAPON_ACTIVATION_SOUNDS.play(unit.attack.soundId);
     }
   }
 }
@@ -938,14 +948,14 @@ function navigateToTarget(unit, target, grid) {
     }
   } else {// move at enemy directly
     unit.dir = unit.pos.getNormalizedAngle(target.pos);
-    if (target.pos.y + target.radius <= unit.pos.y - (unit.radius * 2)) {
+    if (target.pos.y + target.radius <= unit.pos.y - (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(0, -1));
-    } else if (target.pos.y - target.radius >= unit.pos.y + (unit.radius * 2)) {
+    } else if (target.pos.y - target.radius >= unit.pos.y + (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(0, 1));
     }
-    if (target.pos.x + target.radius <= unit.pos.x - (unit.radius * 2)) {
+    if (target.pos.x + target.radius <= unit.pos.x - (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(-1, 0));
-    } else if (target.pos.x - target.radius >= unit.pos.x + (unit.radius * 2)) {
+    } else if (target.pos.x - target.radius >= unit.pos.x + (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(1, 0));
     }
   }

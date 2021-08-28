@@ -49,6 +49,7 @@ class Unit extends Ball {
       ,"isMelee": setup.weaponData.isMelee
       ,"isMultiHit": setup.weaponData.multiHit
       ,"bulletImageId": setup.weaponData.bulletImageId
+      ,"soundId": setup.weaponData.activationSoundId
     };
     // Ability
     this.lastAbility = 0;
