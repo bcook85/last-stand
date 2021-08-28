@@ -22,19 +22,20 @@ const FX_IMAGES = new SpriteSheet("images/fx.png", 16, 16);
 const ICON_IMAGES = new SpriteSheet("images/icons.png", 16, 16);
 const MMBG_IMAGE = new SpriteSheet("images/mainmenu.png", 256, 144);
 
-// Audio
-const MELEE_ACTIVATION_SOUNDS = new SoundContainer();
-const RANGED_ACTIVATION_SOUNDS = new SoundContainer();
-const STRUCK_SOUNDS = new SoundContainer();
-MELEE_ACTIVATION_SOUNDS.load("sounds/attack_melee_0.wav", 8, 0.5);
-RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_0.wav", 16, 0.5);
-RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_1.wav", 8, 0.25);
-MELEE_ACTIVATION_SOUNDS.load("sounds/attack_melee_1.wav", 8, 0.5);
-RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_2.wav", 8, 0.15);
-
 let imageAim = undefined;
 let effectMelee = undefined;
 let effectStruck = undefined;
+
+// Audio
+const DEFAULT_AUDIO_CHANNELS = 16;
+const MELEE_ACTIVATION_SOUNDS = new SoundContainer();
+MELEE_ACTIVATION_SOUNDS.load("sounds/attack_melee_0.wav", DEFAULT_AUDIO_CHANNELS, 0.5);
+MELEE_ACTIVATION_SOUNDS.load("sounds/attack_melee_1.wav", DEFAULT_AUDIO_CHANNELS, 0.5);
+const RANGED_ACTIVATION_SOUNDS = new SoundContainer();
+RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_0.wav", DEFAULT_AUDIO_CHANNELS, 0.5);
+RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_1.wav", DEFAULT_AUDIO_CHANNELS, 0.25);
+RANGED_ACTIVATION_SOUNDS.load("sounds/attack_ranged_2.wav", DEFAULT_AUDIO_CHANNELS, 0.15);
+const STRUCK_SOUNDS = new SoundContainer();
 
 function loadLoop(RAFTS) {
   // Draw loading message
