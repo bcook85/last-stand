@@ -9,6 +9,8 @@ class Screen {
     this.ctx.imageSmoothingEnabled = false;
     this.mousePos = [0,0];
     this.mouseButtons = [false, false];
+    this.mouseWheel = false;
+    this.mouseWheelDir = 0;
     // Stop default actions
     this.canvas.oncontextmenu = () => { return false; };
     this.canvas.onselectstart = () => { return false; };
@@ -30,8 +32,7 @@ class Screen {
         let scaleY = this.canvas.height / canvasRect.height;
         this.mousePos[0] = Math.min(Math.max(Math.floor((e.clientX - canvasRect.left) * scaleX), 0), this.width);
         this.mousePos[1] = Math.min(Math.max(Math.floor((e.clientY - canvasRect.top) * scaleY), 0), this.height);
-      }
-      ,false
+      },false
     );
     this.canvas.addEventListener(
       "mousedown", (e) => {
@@ -41,8 +42,7 @@ class Screen {
         } else if (e.button === 2) {
           this.mouseButtons[1] = true;
         }
-      }
-      ,false
+      },false
     );
     this.canvas.addEventListener(
       "mouseup", (e) => {
@@ -52,9 +52,20 @@ class Screen {
         } else if (e.button === 2) {
           this.mouseButtons[1] = false;
         }
-      }
-      ,false
+      },false
     );
+    this.canvas.addEventListener(
+      "wheel", (e) => {
+        e.preventDefault();
+        this.mouseWheel = true;
+        if (e.deltaY > 0) {
+          this.mouseWheelDir = 1;
+        } else {
+          this.mouseWheelDir = -1;
+        }
+      }, false
+    );
+    window.addEventListener("wheel", event => console.info(event.deltaY));
   };
   textStyle(font, alignment, color) {
     this.ctx.font = font;
@@ -92,8 +103,8 @@ class Screen {
     this.ctx.fillRect(0, 0, this.width, this.height);
   };
   autoFullscreen() {
-    let newWidth = Math.floor(this.canvas.parentElement.clientWidth * 0.985);
-    let newHeight = Math.floor(window.innerHeight * 0.985);
+    let newWidth = Math.floor(this.canvas.parentElement.clientWidth);
+    let newHeight = Math.floor(window.innerHeight);
     let aspectRatio = this.canvas.width / this.canvas.height;
     if (newWidth / newHeight > aspectRatio) {//wide
       newWidth = Math.floor(newHeight * aspectRatio);

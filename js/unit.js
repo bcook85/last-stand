@@ -79,7 +79,7 @@ class Unit extends Ball {
     this.accessory = {};
     // AI
     this.aiLastUpdate = 0;
-    this.aiUpdateTime = 100;// milliseconds
+    this.aiUpdateTime = 50;// milliseconds
     this.ai = undefined;
     this.targetId = -1;
     this.path = [];

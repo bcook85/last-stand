@@ -26,7 +26,7 @@ Ability Definitions
 const PLAYER_ABILITIES = [
   [// 0 for PLAYER_TYPES[0]
     {//0
-      "name": "Test Heal Self"
+      "name": "Self heal"
       ,"description": "Testing out abilities and healing, specifically."
       ,"iconImageId": 4
       ,"effectImageId": 0
@@ -41,7 +41,7 @@ const PLAYER_ABILITIES = [
   ]
   ,[// 1 for PLAYER_TYPES[1]
     {//0
-      "name": "Summon Boneheadz"
+      "name": "Boneheadz"
       ,"description": "Summon 2 skeletons to fight until death. They're tougher than you, but that's not saying much. MAX 2"
       ,"iconImageId": 5
       ,"effectImageId": 0
@@ -57,7 +57,7 @@ const PLAYER_ABILITIES = [
   ]
   ,[// 2 for PLAYER_TYPES[2]
     {//0
-      "name": "Test Teleport"
+      "name": "Teleport"
       ,"description": "Testing out abilities and teleporting, specifically."
       ,"iconImageId": 6
       ,"effectImageId": 0
@@ -70,7 +70,7 @@ const PLAYER_ABILITIES = [
   ]
   ,[// 3 for PLAYER_TYPES[3]
     {//0
-      "name": "Test PBAOE"
+      "name": "Sick Blast"
       ,"description": "Testing out abilities and PBAOEs, specifically."
       ,"iconImageId": 7
       ,"effectImageId": 0

@@ -1,9 +1,9 @@
 const PLAYER_ARMORS = [
   [// 0 for PLAYER_TYPES[0]
     {//0
-      "name": "Smelly Old Armor"
+      "name": "Old"
       ,"iconImageId": 9
-      ,"description": "This antique may have more holes than a cheese grater, but also it smells."
+      ,"description": "Smell Old Armor: This antique may have more holes than a cheese grater, but also it smells."
       ,"defense": 40
       ,"buffs": {
         "health": 50
@@ -19,9 +19,9 @@ const PLAYER_ARMORS = [
   ]
   ,[// 1 for PLAYER_TYPES[1]
     {//0
-      "name": "Robes of Meh"
+      "name": "Meh"
       ,"iconImageId": 9
-      ,"description": "They're OK. I guess. Better than nothing. Probably."
+      ,"description": "Robes of Meh: They're OK. I guess. Better than nothing. Probably."
       ,"defense": 20
       ,"buffs": {
         "health": 0
@@ -37,9 +37,9 @@ const PLAYER_ARMORS = [
   ]
   ,[// 2 for PLAYER_TYPES[2]
     {//0
-      "name": "Very, very Light Armor"
+      "name": "Very Light"
       ,"iconImageId": 9
-      ,"description": "Death from less than 1,000 papercuts. But you'll move faster!"
+      ,"description": "Very, Very Light Armor: Death from less than 1,000 papercuts. But you'll move faster!"
       ,"defense": 5
       ,"buffs": {
         "health": 0
@@ -55,9 +55,9 @@ const PLAYER_ARMORS = [
   ]
   ,[// 3 for PLAYER_TYPES[3]
     {//0
-      "name": "Doctor's Coat"
+      "name": "Doctor"
       ,"iconImageId": 9
-      ,"description": "It's not much protection, but you're also not a doctor."
+      ,"description": "Doctor's Coat: It's not much protection, but you're also not a doctor."
       ,"defense": 15
       ,"buffs": {
         "health": 0

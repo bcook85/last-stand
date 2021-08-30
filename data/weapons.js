@@ -1,9 +1,9 @@
 const PLAYER_WEAPONS = [
   [// 0 for PLAYER_TYPES[0]
     { // 0
-      "name": "Sword of Hitting Things"
+      "name": "H.T."
       ,"iconImageId": 0
-      ,"description": "And stuff! A solid choice for brave heroes. Very brave."
+      ,"description": "Sword of Hitting Things: And stuff! A solid choice for brave heroes. Very brave."
       ,"damage": 25
       ,"attackSpeed": 750
       ,"range": 2.0//2 * radius
@@ -25,9 +25,9 @@ const PLAYER_WEAPONS = [
   ]
   ,[// 1 for PLAYER_TYPES[1]
     { // 0
-      "name": "Staff of Globs"
+      "name": "Globs"
       ,"iconImageId": 1
-      ,"description": "It shoots things with magic stuff. 4/5 dentists recommended."
+      ,"description": "Staff of Globs: It shoots things with magic stuff. 4/5 dentists recommended."
       ,"damage": 5
       ,"attackSpeed": 500
       ,"range": 12.0//6 * radius
@@ -49,9 +49,9 @@ const PLAYER_WEAPONS = [
   ]
   ,[// 2 for PLAYER_TYPES[2]
     { // 0
-      "name": "Ridonkulated Chain Bow"
+      "name": "Ridonkulated"
       ,"iconImageId": 2
-      ,"description": "Death by 1,000 papercuts. CAUTION: Aim away from face."
+      ,"description": "The Ridonkulated Chain Bow: Death by 1,000 papercuts. CAUTION: Aim away from face."
       ,"damage": 2.5
       ,"attackSpeed": 50
       ,"range": 12.0//6 * radius
@@ -73,9 +73,9 @@ const PLAYER_WEAPONS = [
   ]
   ,[// 3 for PLAYER_TYPES[3]
     { // 0
-      "name": "Syringe of Special Sauce"
+      "name": "Special Sauce"
       ,"iconImageId": 3
-      ,"description": "Just don't get stuck with it. Like really don't."
+      ,"description": "Syrigne of Special Sauce: Just don't get stuck with it. Like really don't."
       ,"damage": 14
       ,"attackSpeed": 250
       ,"range": 2.0//6 * radius
