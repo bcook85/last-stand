@@ -124,52 +124,53 @@ function drawPlayerPlaques() {
   let xOffset = 2;
   let yOffset = 2;
   for (let i = 0; i < players.length; i++) {
+    let portrait = PLAYER_PORTRAITS.images[players[i].playerId];
     // Portrait
     gameScreen.ctx.drawImage(
-      players[i].images.portrait
+      portrait
       ,0
       ,0
-      ,players[i].images.portrait.width
-      ,players[i].images.portrait.height
+      ,portrait.width
+      ,portrait.height
       ,xOffset
       ,yOffset
-      ,players[i].images.portrait.width
-      ,players[i].images.portrait.height
+      ,portrait.width
+      ,portrait.height
     );
     // Health Bar - Background
     gameScreen.ctx.fillStyle = "rgb(0,0,0)";//"rgb(255,0,0)";
     gameScreen.ctx.fillRect(
-      xOffset + players[i].images.portrait.width + 2
+      xOffset + portrait.width + 2
       ,yOffset
-      ,Math.floor(players[i].images.portrait.width * 2)
-      ,Math.floor(players[i].images.portrait.height * 0.5)
+      ,Math.floor(portrait.width * 2)
+      ,Math.floor(portrait.height * 0.5)
     );
     // Health Bar - Foreground
     gameScreen.ctx.fillStyle = "rgb(255,0,0)";//"rgb(0,255,0)";
     gameScreen.ctx.fillRect(
-      xOffset + players[i].images.portrait.width + 2
+      xOffset + portrait.width + 2
       ,yOffset
-      ,Math.floor(Math.floor(players[i].images.portrait.width * 2) * (players[i].hp / players[i].health))
-      ,Math.floor(players[i].images.portrait.height * 0.5)
+      ,Math.floor(Math.floor(portrait.width * 2) * (players[i].hp / players[i].health))
+      ,Math.floor(portrait.height * 0.5)
     );
     // Energy Bar - Background
     gameScreen.ctx.fillStyle = "rgb(0,0,0)";//"rgb(79,0,81)";
     gameScreen.ctx.fillRect(
-      xOffset + players[i].images.portrait.width + 2
-      ,yOffset + Math.floor(players[i].images.portrait.width * 0.5)
-      ,Math.floor(players[i].images.portrait.width * 2)
-      ,Math.floor(players[i].images.portrait.height * 0.5)
+      xOffset + portrait.width + 2
+      ,yOffset + Math.floor(portrait.width * 0.5)
+      ,Math.floor(portrait.width * 2)
+      ,Math.floor(portrait.height * 0.5)
     );
     // Energy Bar - Foreground
     gameScreen.ctx.fillStyle = "rgb(0,255,0)";//"rgb(0,111,255)";
     gameScreen.ctx.fillRect(
-      xOffset + players[i].images.portrait.width + 2
-      ,yOffset + Math.floor(players[i].images.portrait.width * 0.5)
-      ,Math.floor(Math.floor(players[i].images.portrait.width * 2) * (players[i].nrg / players[i].energy))
-      ,Math.floor(players[i].images.portrait.height * 0.5)
+      xOffset + portrait.width + 2
+      ,yOffset + Math.floor(portrait.width * 0.5)
+      ,Math.floor(Math.floor(portrait.width * 2) * (players[i].nrg / players[i].energy))
+      ,Math.floor(portrait.height * 0.5)
     );
     // For next row
-    yOffset += players[i].images.portrait.height + 2;
+    yOffset += portrait.height + 2;
   }
 }
 

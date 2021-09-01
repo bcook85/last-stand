@@ -30,7 +30,6 @@ class Unit extends Ball {
     // Draw
     this.images = {
       "unit": images.unit
-      ,"portrait": images.portrait
       ,"shadow": images.shadow
       ,"downed": images.downed
     };

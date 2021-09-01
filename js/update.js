@@ -77,7 +77,7 @@ function updateStartMenu() {
           playerList.push({
             "name": PLAYER_TYPES[i].name
             ,"description": PLAYER_TYPES[i].description
-            ,"image": PLAYER_IMAGES.images[(PLAYER_TYPES[i].imageRow * PLAYER_IMAGES.framesX) + 1]
+            ,"image": PLAYER_PORTRAITS.images[i]
           });
         }
         teamMenu.buildItems(playerList);
@@ -92,7 +92,7 @@ function updateStartMenu() {
           playerList.push({
             "name": PLAYER_TYPES[i].name
             ,"description": PLAYER_TYPES[i].description
-            ,"image": PLAYER_IMAGES.images[(PLAYER_TYPES[i].imageRow * PLAYER_IMAGES.framesX) + 1]
+            ,"image": PLAYER_PORTRAITS.images[i]
           });
         }
         teamMenu.buildItems(playerList);
@@ -107,7 +107,7 @@ function updateStartMenu() {
           playerList.push({
             "name": PLAYER_TYPES[i].name
             ,"description": PLAYER_TYPES[i].description
-            ,"image": PLAYER_IMAGES.images[(PLAYER_TYPES[i].imageRow * PLAYER_IMAGES.framesX) + 1]
+            ,"image": PLAYER_PORTRAITS.images[i]
           });
         }
         teamMenu.buildItems(playerList);
@@ -254,9 +254,9 @@ function buildMainMenu() {
 
 function updateTeamMenuItems() {
   teamMenuCardImages = [
-    PLAYER_IMAGES.images[(PLAYER_TYPES[uiSelections.playerId].imageRow * PLAYER_IMAGES.framesX) + 1]
-    ,PLAYER_IMAGES.images[(PLAYER_TYPES[uiSelections.ally1Id].imageRow * PLAYER_IMAGES.framesX) + 1]
-    ,PLAYER_IMAGES.images[(PLAYER_TYPES[uiSelections.ally2Id].imageRow * PLAYER_IMAGES.framesX) + 1]
+    PLAYER_PORTRAITS.images[uiSelections.playerId]
+    ,PLAYER_PORTRAITS.images[uiSelections.ally1Id]
+    ,PLAYER_PORTRAITS.images[uiSelections.ally2Id]
     ,ICON_IMAGES.images[PLAYER_WEAPONS[uiSelections.playerId][uiSelections.weaponId].iconImageId]
     ,ICON_IMAGES.images[PLAYER_ARMORS[uiSelections.playerId][uiSelections.armorId].iconImageId]
     ,ICON_IMAGES.images[PLAYER_ABILITIES[uiSelections.playerId][uiSelections.abilityId].iconImageId]
@@ -335,9 +335,8 @@ function spawnPlayers(playerData) {
     let radius = PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX)].width * 0.5 / map.tileSize;
     let images = {
       "unit": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX)]
-      ,"portrait": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 1]
-      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 2]
-      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 3]
+      ,"shadow": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 1]
+      ,"downed": PLAYER_IMAGES.images[(PLAYER_TYPES[playerData[i].id].imageRow * PLAYER_IMAGES.framesX) + 2]
     };
     if (!createPlayer(setupData, pos, radius, images)) {
       preLoadLoop.stop();

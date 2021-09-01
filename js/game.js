@@ -23,6 +23,7 @@ let gameState = GAME_STATES.load;
 
 // Images
 const PLAYER_IMAGES = new SpriteSheet("images/players.png", 8, 8);
+const PLAYER_PORTRAITS = new SpriteSheet("images/player_portraits.png", 8, 8);
 const PET_IMAGES = new SpriteSheet("images/pets.png", 8, 8);
 const MOB_IMAGES = new SpriteSheet("images/mobs.png", 8, 8);
 const BULLET_IMAGES = new SpriteSheet("images/bullets.png", 16, 16);
