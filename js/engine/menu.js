@@ -24,7 +24,8 @@ class Menu {
     this.items = [];
     this.scrollPosition = 0;
     this.maxScroll = 0;
-    this.scrollAmount = 3;
+    this.minScroll = 0;
+    this.scrollAmount = 10;
   };
   // Build
   buildButton(buttonData) {
@@ -52,8 +53,8 @@ class Menu {
     );
     let newButton = {
       "pos": new Vector(
-        buttonData.pos[0] - (buttonImage.width * 0.5)
-        ,buttonData.pos[1] - (buttonImage.height * 0.5)
+        Math.floor(buttonData.pos[0] - (buttonImage.width * 0.5))
+        ,Math.floor(buttonData.pos[1] - (buttonImage.height * 0.5))
       )
       ,"size": new Vector(buttonImage.width, buttonImage.height)
       ,"image": buttonImage
@@ -110,7 +111,7 @@ class Menu {
   };
   buildItems(items) {
     this.items = [];
-    this.scrollPosition = 0;
+    this.scrollPosition = this.minScroll;
     for (let i = 0; i < items.length; i++) {
       // Item Image
       let itemImage = document.createElement("canvas");
@@ -152,14 +153,17 @@ class Menu {
         ,"isHover": false
       });
     }
-    this.maxScroll = (this.items.length - 1) * this.itemSize.y;
+    this.maxScroll = Math.max(
+      (this.items.length * this.itemSize.y) + ((this.items.length + 1) * this.spacing) - this.size.y
+      ,0
+    );
   };
   // Draw
   drawItems(ctx) {
     // Background
     ctx.fillStyle = "rgb(20,20,20)";
     ctx.fillRect(
-      (this.size.x * 0.5) - (this.itemSize.x * 0.5) - this.spacing
+      Math.floor((this.size.x * 0.5) - (this.itemSize.x * 0.5) - this.spacing)
       ,0
       ,this.itemSize.x + (this.spacing * 2)
       ,this.size.y
@@ -174,16 +178,16 @@ class Menu {
         ctx.fillStyle = "rgb(50,50,50)";
       }
       ctx.fillRect(
-        (this.size.x * 0.5) - (this.itemSize.x * 0.5) - this.spacing
+        Math.floor((this.size.x * 0.5) - (this.itemSize.x * 0.5))
         ,y - this.scrollPosition
-        ,this.itemSize.x + (this.spacing * 2)
+        ,this.itemSize.x
         ,this.itemSize.y
       );
       // Image
       ctx.drawImage(
         this.items[i].image
         ,0,0,this.items[i].image.width,this.items[i].image.height
-        ,(this.size.x * 0.5) - (this.itemSize.x * 0.5)
+        ,Math.floor((this.size.x * 0.5) - (this.itemSize.x * 0.5))
         ,y - this.scrollPosition
         ,this.itemSize.x
         ,this.itemSize.y
@@ -269,7 +273,7 @@ class Menu {
     // Items
     if (this.showItemList) {
       this.scrollPosition += scroll * this.scrollAmount;
-      this.scrollPosition = Math.min(Math.max(0, this.scrollPosition), this.maxScroll);
+      this.scrollPosition = Math.min(Math.max(this.minScroll, this.scrollPosition), this.maxScroll);
       for (let i = 0; i < this.items.length; i++) {
         let pos = new Vector(
           (this.size.x * 0.5) - (this.itemSize.x * 0.5)

@@ -35,24 +35,74 @@ function updateStartMenu() {
     gameScreen.mouseWheel = false;
     scroll = gameScreen.mouseWheelDir;
   }
-  let mouseOver = {
-    "buttons": []
-    ,"cards": []
-    ,"items": []
-  };
   // Main Menu
   if (currentMenu == MENU_STATES.main) {
-    // Update
-    mouseOver = mainMenu.update(gameScreen.mousePos, scroll);
-    if (mouseOver.buttons[0] && gameScreen.mouseButtons[0]) {
-      currentMenu = MENU_STATES.team;
-      buildTeamMenu();
-    }
+    updateMainMenu(scroll);
   }
   // Team Menu
   else if (currentMenu == MENU_STATES.team) {
-    // Update
-    mouseOver = teamMenu.update(gameScreen.mousePos, scroll);
+    updateTeamMenu(scroll);
+  }
+  // Game Menu
+  else if (currentMenu == MENU_STATES.game) {
+    updateGameMenu(scroll);
+  }
+  // prevent 2 actions from 1 click
+  gameScreen.mouseButtons[0] = false;
+}
+
+function updateMainMenu(scroll) {
+  let mouseOver = mainMenu.update(gameScreen.mousePos, scroll);
+  if (mouseOver.buttons[0] && gameScreen.mouseButtons[0]) {
+    currentMenu = MENU_STATES.team;
+    buildTeamMenu();
+  }
+}
+
+function updateTeamMenu(scroll) {
+  let mouseOver = teamMenu.update(gameScreen.mousePos, scroll);
+    // Items
+  if (teamMenu.showItemList) {
+    if (gameScreen.mouseButtons[0]) {
+      let selection = 0;
+      for (let i = 0; i < mouseOver.items.length; i++) {
+        if (mouseOver.items[i]) {
+          selection = i;
+          break;
+        }
+      }
+      // Player
+      if (currentSubMenu == 0) {
+        uiSelections.playerId = selection;
+        buildTeamMenu();
+      }
+      // Ally 1
+      else if (currentSubMenu == 1) {
+        uiSelections.ally1Id = selection;
+        buildTeamMenu();
+      }
+      // Ally 2
+      else if (currentSubMenu == 2) {
+        uiSelections.ally2Id = selection;
+        buildTeamMenu();
+      }
+      // Weapon
+      else if (currentSubMenu == 3) {
+        uiSelections.weaponId = selection;
+        buildTeamMenu();
+      }
+      // Armor
+      else if (currentSubMenu == 4) {
+        uiSelections.armorId = selection;
+        buildTeamMenu();
+      }
+      // Ability
+      else if (currentSubMenu == 5) {
+        uiSelections.abilityId = selection;
+        buildTeamMenu();
+      }
+    }
+  } else {
     // Buttons
     if (gameScreen.mouseButtons[0]) {
       // Back
@@ -131,121 +181,78 @@ function updateStartMenu() {
         gameScreen.mouseButtons[0] = false;
       }
     }
+  }
+}
 
-    // Items
-    if (teamMenu.showItemList && gameScreen.mouseButtons[0]) {
-      let selection = 0;
-      for (let i = 0; i < mouseOver.items.length; i++) {
-        if (mouseOver.items[i]) {
-          selection = i;
-          break;
-        }
-      }
-      // Player
-      if (currentSubMenu == 0) {
-        uiSelections.playerId = selection;
-        buildTeamMenu();
-      }
-      // Ally 1
-      else if (currentSubMenu == 1) {
-        uiSelections.ally1Id = selection;
-        buildTeamMenu();
-      }
-      // Ally 2
-      else if (currentSubMenu == 2) {
-        uiSelections.ally2Id = selection;
-        buildTeamMenu();
-      }
-      // Weapon
-      else if (currentSubMenu == 3) {
-        uiSelections.weaponId = selection;
-        buildTeamMenu();
-      }
-      // Armor
-      else if (currentSubMenu == 4) {
-        uiSelections.armorId = selection;
-        buildTeamMenu();
-      }
-      // Ability
-      else if (currentSubMenu == 5) {
-        uiSelections.abilityId = selection;
-        buildTeamMenu();
-      }
+function updateGameMenu(scroll) {
+  let mouseOver = gameMenu.update(gameScreen.mousePos, scroll);
+  // Buttons
+  if (gameScreen.mouseButtons[0]) {
+    // Back
+    if (mouseOver.buttons[0]) {
+      currentMenu = MENU_STATES.team;
+      gameScreen.mouseButtons[0] = false;
+    }
+    // Next
+    else if (mouseOver.buttons[1]) {
+      currentMenu = MENU_STATES.main;
+      gameScreen.mouseButtons[0] = false;
+      startGame();
     }
   }
-  // Game Menu
-  else if (currentMenu == MENU_STATES.game) {
-    // Update
-    mouseOver = gameMenu.update(gameScreen.mousePos, scroll);
-    // Buttons
-    if (gameScreen.mouseButtons[0]) {
-      // Back
-      if (mouseOver.buttons[0]) {
-        currentMenu = MENU_STATES.team;
-        gameScreen.mouseButtons[0] = false;
+  // Cards
+  if (gameScreen.mouseButtons[0]) {
+    // Map
+    if (mouseOver.cards[0]) {
+      let mapList = [];
+      for (let i = 0; i < MAP_TYPES.length; i++) {
+        mapList.push({
+          "name": MAP_TYPES[i].name
+          ,"description": "A Map"
+          ,"image": ICON_IMAGES.images[0]
+        });
       }
-      // Next
-      else if (mouseOver.buttons[1]) {
-        currentMenu = MENU_STATES.main;
-        gameScreen.mouseButtons[0] = false;
-        startGame();
-      }
+      gameMenu.buildItems(mapList);
+      currentSubMenu = 0;
+      gameMenu.showItemList = true;
+      gameScreen.mouseButtons[0] = false;
     }
-    // Cards
-    if (gameScreen.mouseButtons[0]) {
-      // Map
-      if (mouseOver.cards[0]) {
-        let mapList = [];
-        for (let i = 0; i < MAP_TYPES.length; i++) {
-          mapList.push({
-            "name": MAP_TYPES[i].name
-            ,"description": "A Map"
-            ,"image": ICON_IMAGES.images[0]
-          });
-        }
-        gameMenu.buildItems(mapList);
-        currentSubMenu = 0;
-        gameMenu.showItemList = true;
-        gameScreen.mouseButtons[0] = false;
+    // Difficulty
+    else if (mouseOver.cards[1]) {
+      let difficultyList = [];
+      for (let i = 0; i < LEVEL_TYPES.length; i++) {
+        difficultyList.push({
+          "name": LEVEL_TYPES[i].name
+          ,"description": "A difficulty"
+          ,"image": ICON_IMAGES.images[0]
+        });
       }
-      // Difficulty
-      else if (mouseOver.cards[1]) {
-        let difficultyList = [];
-        for (let i = 0; i < LEVEL_TYPES.length; i++) {
-          difficultyList.push({
-            "name": LEVEL_TYPES[i].name
-            ,"description": "A difficulty"
-            ,"image": ICON_IMAGES.images[0]
-          });
-        }
-        gameMenu.buildItems(difficultyList);
-        currentSubMenu = 1;
-        gameMenu.showItemList = true;
-        gameScreen.mouseButtons[0] = false;
-      }
-    }
-    // Items
-    if (gameMenu.showItemList && gameScreen.mouseButtons[0]) {
-      let selection = 0;
-      for (let i = 0; i < mouseOver.items.length; i++) {
-        if (mouseOver.items[i]) {
-          selection = i;
-          break;
-        }
-      }
-      // Map
-      if (currentSubMenu == 0) {
-        uiSelections.mapId = selection;
-        buildGameMenu();
-      }
-      // Difficulty
-      else if (currentSubMenu == 1) {
-        uiSelections.levelId = selection;
-        buildGameMenu();
-      }
+      gameMenu.buildItems(difficultyList);
+      currentSubMenu = 1;
+      gameMenu.showItemList = true;
+      gameScreen.mouseButtons[0] = false;
     }
   }
-  gameScreen.mouseButtons[0] = false;
+  // Items
+  if (gameMenu.showItemList && gameScreen.mouseButtons[0]) {
+    let selection = 0;
+    for (let i = 0; i < mouseOver.items.length; i++) {
+      if (mouseOver.items[i]) {
+        selection = i;
+        break;
+      }
+    }
+    // Map
+    if (currentSubMenu == 0) {
+      uiSelections.mapId = selection;
+      buildGameMenu();
+    }
+    // Difficulty
+    else if (currentSubMenu == 1) {
+      uiSelections.levelId = selection;
+      buildGameMenu();
+    }
+  }
 }
 
 function buildMainMenu() {

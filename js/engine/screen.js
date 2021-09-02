@@ -58,14 +58,13 @@ class Screen {
       "wheel", (e) => {
         e.preventDefault();
         this.mouseWheel = true;
-        if (e.deltaY > 0) {
+        if (e.deltaY >= 0) {
           this.mouseWheelDir = 1;
         } else {
           this.mouseWheelDir = -1;
         }
       }, false
     );
-    window.addEventListener("wheel", event => console.info(event.deltaY));
   };
   textStyle(font, alignment, color) {
     this.ctx.font = font;
