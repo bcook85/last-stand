@@ -6,6 +6,7 @@ class Unit extends Ball {
     this.movement = new Vector(0, 0);
     // Stats
     this.playerId = setup.playerId;
+    this.isPlayer = true;
     this.alive = true;
     this.health = setup.unitData.health;
     this.health += setup.armorData.buffs.health;

@@ -361,8 +361,6 @@ function createPlayer(setupData, pos, radius, images) {
     ,radius
     ,images
   );
-  newPlayer.id = "p" + player_id;
-  player_id += 1;
   // Placement
   newPlayer.pos = findPlacement(newPlayer.pos, newPlayer.radius * 1.5, 8, players.concat(mobs).concat(pets), map.grid);
   if (newPlayer.pos === undefined) {
@@ -413,8 +411,7 @@ function createMob(mobData) {
     ,mImages.unit.width * 0.5 / map.tileSize
     ,mImages
   );
-  newMob.id = "m" + mob_id;
-  mob_id += 1;
+  newMob.isPlayer = false;
   newMob.pos = findPlacement(newMob.pos, newMob.radius * 1.1, 2, players.concat(mobs).concat(pets), map.grid);
   if (newMob.pos === undefined) {
     return false;
@@ -452,8 +449,6 @@ function summonPet(unit, petId, count) {
     );
     newPet.pos = findPlacement(newPet.pos, newPet.radius * 1.1, 2, players.concat(mobs).concat(pets), map.grid);
     newPet.owner = unit;
-    newPet.id = "pet" + pet_id;
-    pet_id += 1;
     if (newPet.pos !== undefined) {
       addObjectToList(newPet, pets);
     }
@@ -496,7 +491,7 @@ function createBullet(unit, image, damage) {
   if (unit.attack.isMultiHit) {
     bullet.multiHit = true;
   }
-  if (unit.id[0] == "m") {
+  if (!unit.isPlayer) {
     addObjectToList(bullet, mobBullets);
   } else {
     addObjectToList(bullet, playerBullets);

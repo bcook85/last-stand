@@ -230,12 +230,15 @@ class Box {
 /******************************************************************************
 Ball
 ******************************************************************************/
+let ball_id = 0;
 class Ball {
   constructor(pos, radius) {
     this.pos = new Vector(pos.x, pos.y);
     this.radius = radius;
     this.vel = new Vector(0, 0);
     this.hasCollision = true;
+    this.id = ball_id;
+    ball_id += 1;
   };
   vsVector(vec) {
     return Math.abs(((vec.x - this.x) * (vec.x - this.x)) + ((vec.y - this.y) * (vec.y - this.y))) < this.radius * this.radius;
