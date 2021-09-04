@@ -325,11 +325,14 @@ class Ball {
     return false;
   };
   static collidesGrid(ball, grid) {
-    let potentialPosition = ball.pos.add(ball.vel);
-    let currentCell = new Vector(Math.floor(ball.pos.x), Math.floor(ball.pos.y));
-    let targetCell = potentialPosition;
-    let areaTL = new Vector(Math.floor(Math.min(currentCell.x, targetCell.x) - 1), Math.floor(Math.min(currentCell.y, targetCell.y)) - 1);
-    let areaBR = new Vector(Math.floor(Math.max(currentCell.x, targetCell.x) + 1), Math.floor(Math.max(currentCell.y, targetCell.y)) + 1);
+    let areaTL = new Vector(
+      Math.floor(ball.pos.x - ball.radius) - 1
+      ,Math.floor(ball.pos.y - ball.radius) - 1
+    );
+    let areaBR = new Vector(
+      Math.ceil(ball.pos.x + ball.radius) + 1
+      ,Math.ceil(ball.pos.y + ball.radius) + 1
+    );
     let cell = new Vector(0, 0);
     for (cell.y = areaTL.y; cell.y <= areaBR.y; cell.y++) {
       for (cell.x = areaTL.x; cell.x <= areaBR.x; cell.x++) {
@@ -337,10 +340,10 @@ class Ball {
           || cell.x >= grid.length || cell.y >= grid[cell.x].length
           || grid[cell.x][cell.y] != 0) {
           let near = new Vector(
-            Math.max(cell.x, Math.min(potentialPosition.x, cell.x + 1))
-            ,Math.max(cell.y, Math.min(potentialPosition.y, cell.y + 1))
+            Math.max(cell.x, Math.min(ball.pos.x, cell.x + 1))
+            ,Math.max(cell.y, Math.min(ball.pos.y, cell.y + 1))
           );
-          let rayToNear = near.sub(potentialPosition);
+          let rayToNear = near.sub(ball.pos);
           if (rayToNear.x == 0 && rayToNear.y == 0) {
             return true;
           } else {

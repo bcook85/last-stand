@@ -39,7 +39,7 @@ const PLAYER_ARMORS = [
     {//0
       "name": "Very Light"
       ,"iconImageId": 9
-      ,"description": "Very, Very Light Armor: Death from less than 1,000 papercuts. But you'll move faster!"
+      ,"description": "Very, Very Light Armor: Death from less than 1000 papercuts. But you'll move faster!"
       ,"defense": 5
       ,"buffs": {
         "health": 0

@@ -180,6 +180,36 @@ function updateTeamMenu(scroll) {
         teamMenu.showItemList = true;
         gameScreen.mouseButtons[0] = false;
       }
+      // Armor
+      else if (mouseOver.cards[4]) {
+        let armorList = [];
+        for (let i = 0; i < PLAYER_ARMORS[uiSelections.playerId].length; i++) {
+          armorList.push({
+            "name": PLAYER_ARMORS[uiSelections.playerId][i].name
+            ,"description": PLAYER_ARMORS[uiSelections.playerId][i].description
+            ,"image": ICON_IMAGES.images[PLAYER_ARMORS[uiSelections.playerId][uiSelections.armorId].iconImageId]
+          });
+        }
+        teamMenu.buildItems(armorList);
+        currentSubMenu = 4;
+        teamMenu.showItemList = true;
+        gameScreen.mouseButtons[0] = false;
+      }
+      // Ability
+      else if (mouseOver.cards[5]) {
+        let abilityList = [];
+        for (let i = 0; i < PLAYER_ABILITIES[uiSelections.playerId].length; i++) {
+          abilityList.push({
+            "name": PLAYER_ABILITIES[uiSelections.playerId][i].name
+            ,"description": PLAYER_ABILITIES[uiSelections.playerId][i].description
+            ,"image": ICON_IMAGES.images[PLAYER_ABILITIES[uiSelections.playerId][uiSelections.abilityId].iconImageId]
+          });
+        }
+        teamMenu.buildItems(abilityList);
+        currentSubMenu = 5;
+        teamMenu.showItemList = true;
+        gameScreen.mouseButtons[0] = false;
+      }
     }
   }
 }
@@ -460,7 +490,7 @@ function findPlacement(pos, radius, maxDistance, objects, grid) {
     pos
     ,radius
   );
-  let ballAngle = Math.random() * Math.PI * 2;
+  let ballAngle = 0;
   let ballDistance = testBall.radius * 2;
   while (Ball.collidesGrid(testBall, grid)
     || Ball.collidesBalls(testBall, objects)) {
@@ -809,7 +839,7 @@ function petAIMasterControl(unit, allies, enemies, grid) {
       unit.aiLastUpdate = gameLoop.elapsedTime;
       unit.movement = new Vector(0, 0);
 
-      if (unit.pos.getDistance(unit.owner.pos) <= 4) {
+      if (unit.pos.getDistance(unit.owner.pos) <= (gameScreen.height * 0.5) / map.tileSize) {
         unit.targetId = findClosestLivingTarget(unit.pos, enemies);
 
         if (unit.ai == 0 || unit.ai == undefined) {
@@ -824,6 +854,8 @@ function petAIMasterControl(unit, allies, enemies, grid) {
             }
             // Ability
 
+          } else if (unit.pos.getDistance(unit.owner.pos) > (unit.radius * 2) + (unit.owner.radius * 2)) {
+            navigateToTarget(unit, unit.owner, grid);
           }
         }
       } else {
@@ -951,14 +983,14 @@ function navigateToTarget(unit, target, grid) {
     }
   } else {// move at enemy directly
     unit.dir = unit.pos.getNormalizedAngle(target.pos);
-    if (target.pos.y + target.radius <= unit.pos.y - (unit.attack.range)) {
+    if (target.pos.y + target.radius < unit.pos.y - (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(0, -1));
-    } else if (target.pos.y - target.radius >= unit.pos.y + (unit.attack.range)) {
+    } else if (target.pos.y - target.radius > unit.pos.y + (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(0, 1));
     }
-    if (target.pos.x + target.radius <= unit.pos.x - (unit.attack.range)) {
+    if (target.pos.x + target.radius < unit.pos.x - (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(-1, 0));
-    } else if (target.pos.x - target.radius >= unit.pos.x + (unit.attack.range)) {
+    } else if (target.pos.x - target.radius > unit.pos.x + (unit.attack.range)) {
       unit.movement = unit.movement.add(new Vector(1, 0));
     }
   }

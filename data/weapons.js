@@ -49,9 +49,9 @@ const PLAYER_WEAPONS = [
   ]
   ,[// 2 for PLAYER_TYPES[2]
     { // 0
-      "name": "Ridonkulated"
+      "name": "Chainbow R"
       ,"iconImageId": 2
-      ,"description": "The Ridonkulated Chain Bow: Death by 1,000 papercuts. CAUTION: Aim away from face."
+      ,"description": "The Ridonkulated Chainbow: Death by 1000 papercuts. CAUTION: Aim away from face."
       ,"damage": 2.5
       ,"attackSpeed": 50
       ,"range": 12.0//6 * radius

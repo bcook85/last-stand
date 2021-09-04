@@ -139,7 +139,10 @@ class Menu {
         ,nameImage.height
       );
       // Description
-      let descriptionImage = this.font.createImage(items[i].description);
+      let descriptionImage = this.font.createMultiLineImage(items[i].description, new Vector(
+        this.itemSize.x - this.itemImageSize.x
+        ,this.itemSize.y - nameImage.height
+      ));
       ctx.drawImage(
         descriptionImage
         ,0,0,descriptionImage.width,descriptionImage.height

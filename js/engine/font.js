@@ -1,51 +1,9 @@
 class Font {
-  constructor(file, width, height) {
-    this.fontSheet = new SpriteSheet(file, width, height);
-    this.characterSize = new Vector(width, height);
-    this.characters = {
-      "A": 0
-      ,"B": 1
-      ,"C": 2
-      ,"D": 3
-      ,"E": 4
-      ,"F": 5
-      ,"G": 6
-      ,"H": 7
-      ,"I": 8
-      ,"J": 9
-      ,"K": 10
-      ,"L": 11
-      ,"M": 12
-      ,"N": 13
-      ,"O": 14
-      ,"P": 15
-      ,"Q": 16
-      ,"R": 17
-      ,"S": 18
-      ,"T": 19
-      ,"U": 20
-      ,"V": 21
-      ,"W": 22
-      ,"X": 23
-      ,"Y": 24
-      ,"Z": 25
-      ,"0": 26
-      ,"1": 27
-      ,"2": 28
-      ,"3": 29
-      ,"4": 30
-      ,"5": 31
-      ,"6": 32
-      ,"7": 33
-      ,"8": 34
-      ,"9": 35
-      ,".": 36
-      ,",": 37
-      ,"!": 38
-      ,"-": 39
-      ,":": 40
-      ," ": 41
-    };
+  constructor(fontData) {
+    this.fontSheet = new SpriteSheet(fontData.imageFile, fontData.size[0], fontData.size[1]);
+    this.characterSize = new Vector(fontData.size[0], fontData.size[1]);
+    this.spaceSize = fontData.spaceSize;
+    this.characters = fontData.characters;
   };
   getPotentialWidth(text) {
     return (text.length * this.characterSize.x) + text.length - 1;
@@ -64,7 +22,7 @@ class Font {
         ctx.drawImage(
           aCharacter
           ,0,0,this.characterSize.x,this.characterSize.y
-          ,(i * this.characterSize.x) + i
+          ,(i * this.characterSize.x) + (i * this.spaceSize)
           ,0
           ,this.characterSize.x
           ,this.characterSize.y
@@ -80,23 +38,45 @@ class Font {
     let ctx = image.getContext("2d");
     ctx.imageSmoothingEnabled = false;
     // Text
-    let lastSpace = -1;
-    let currentX = 0;
-    let maxPerLine = Math.floor(size.x / (this.characterSize.x + text.length));
-    let lines = [];
-    let line = "";
-    while (true) {
-      line += text[currentX];
-      if (line.length >= maxPerLine) {
-        lines.push(this.createImage(line));
-        line = "";
+    let line = 0;
+    let maxPerLine = Math.floor(size.x / (this.characterSize.x + this.spaceSize));
+    let position = 0;
+    let done = false;
+    while (!done) {
+      let lineText = "";
+      // Read maxPerLine worth of characters
+      for (let i = 0; i < maxPerLine; i++) {
+        if (i + position >= text.length) {
+          done = true;
+          break;
+        } else {
+          lineText += text[i + position];
+        }
       }
-      currentX += 1;
-      if (currentX >= text.length) {
-        lines.push(this.createImage(line));
-        break;
+      if (!done) {
+        // Back up to a whitespace character
+        for (let i = lineText.length - 1; i >= 0; i--) {
+          if (!lineText[i].match(/[a-zA-Z0-9']/)) {
+            break;
+          } else {
+            lineText = lineText.slice(0, -1);
+            position -= 1;
+          }
+        }
       }
+      // Create lineText image
+      let lineImage = this.createImage(lineText);
+      ctx.drawImage(
+        lineImage
+        ,0,0,lineImage.width,lineImage.height
+        ,0
+        ,Math.floor((line * lineImage.height) + line)
+        ,lineImage.width
+        ,lineImage.height
+      );
+      position += maxPerLine;
+      line += 1;
     }
-    // this is so wrong
+    return image;
   };
 };
